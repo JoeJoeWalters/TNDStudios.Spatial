@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Package.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
@@ -6,15 +7,10 @@ using System.Xml.Serialization;
 
 namespace TNDStudios.Spatial.Documents
 {
-    public class XmlBase
-    {
-        [XmlAnyElement]
-        public XmlElement[] Unsupported { get; set; }
-    }
-
     // http://www.topografix.com/GPX/1/1/gpx.xsd
     public class GPXFile : XmlBase
     {
+        [XmlAttribute("gpx")]
         GPXType GPX { get; set; }
     }
 
