@@ -1,4 +1,5 @@
 using System;
+using TNDStudios.Spatial.Documents;
 using Xunit;
 
 namespace Package.Tests
@@ -9,8 +10,10 @@ namespace Package.Tests
         public void LoadGPX()
         {
             // ARRANGE
-            
+            GPXFile gpxFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx");
+
             // ACT
+            var x = gpxFile.GPX.Waypoints.Length;
 
             // ASSERT
         }

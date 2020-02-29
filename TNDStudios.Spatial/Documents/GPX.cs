@@ -8,12 +8,14 @@ using System.Xml.Serialization;
 namespace TNDStudios.Spatial.Documents
 {
     // http://www.topografix.com/GPX/1/1/gpx.xsd
+    [Serializable]
     public class GPXFile : XmlBase
     {
         [XmlAttribute("gpx")]
-        GPXType GPX { get; set; }
+        public GPXType GPX { get; set; }
     }
 
+    [Serializable]
     public class GPXType : XmlBase
     {
         [XmlAttribute("creator")]
@@ -38,6 +40,7 @@ namespace TNDStudios.Spatial.Documents
         public GPXExtension[] Extensions { get; set; }
     }
 
+    [Serializable]
     public class GPXMetaData : XmlBase
     {
         /// <summary>
@@ -98,6 +101,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// wpt represents a waypoint, point of interest, or named feature on a map.
     /// </summary>
+    [Serializable]
     public class GPXWaypoint : XmlBase
     {
         /// <summary>
@@ -234,6 +238,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// rte represents route - an ordered list of waypoints representing a series of turn points leading to a destination.
     /// </summary>
+    [Serializable]
     public class GPXRoute : XmlBase 
     {
         /// <summary>
@@ -294,6 +299,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// trk represents a track - an ordered list of points describing a path.
     /// </summary>
+    [Serializable]
     public class GPXTrack : XmlBase
     {
         /// <summary>
@@ -354,6 +360,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// A Track Segment holds a list of Track Points which are logically connected in order. To represent a single GPS track where GPS reception was lost, or the GPS receiver was turned off, start a new Track Segment for each continuous span of track data.
     /// </summary>
+    [Serializable]
     public class GPXTrackSegment : XmlBase 
     {
         /// <summary>
@@ -372,6 +379,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// You can add extend GPX by adding your own elements from another schema here.
     /// </summary>
+    [Serializable]
     public class GPXExtension : XmlBase 
     { 
         // All Dynamic handled by Base class
@@ -380,6 +388,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// Information about the copyright holder and any license governing use of this file. By linking to an appropriate license, you may place your data into the public domain or grant additional usage rights.
     /// </summary>
+    [Serializable]
     public class GPXCopyright : XmlBase
     {
         /// <summary>
@@ -404,6 +413,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// Two lat/lon pairs defining the extent of an element.
     /// </summary>
+    [Serializable]
     public class GPXBounds : XmlBase
     {
         /// <summary>
@@ -434,6 +444,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// A link to an external resource (Web page, digital photo, video clip, etc) with additional information.
     /// </summary>
+    [Serializable]
     public class GPXLink : XmlBase
     {
         /// <summary>
@@ -458,6 +469,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// An ordered sequence of points. (for polygons or polylines, e.g.)
     /// </summary>
+    [Serializable]
     public class GPXSegment : XmlBase
     {
         /// <summary>
@@ -470,6 +482,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// A geographic point with optional elevation and time. Available for use by other schemas.
     /// </summary>
+    [Serializable]
     public class GPXPoint : XmlBase
     {
         /// <summary>
@@ -500,6 +513,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// A person or organization.
     /// </summary>
+    [Serializable]
     public class GPXPerson : XmlBase
     {
         /// <summary>
@@ -524,6 +538,7 @@ namespace TNDStudios.Spatial.Documents
     /// <summary>
     /// An email address. Broken into two parts (id and domain) to help prevent email harvesting.
     /// </summary>
+    [Serializable]
     public class GPXEMail : XmlBase
     {
         /// <summary>
@@ -539,10 +554,12 @@ namespace TNDStudios.Spatial.Documents
         public String Domain { get; set; }
     }
 
+    [Serializable]
     public class GPXFix : XmlBase
     {
     }
 
+    [Serializable]
     public class GPXStation : XmlBase
     {
     }
