@@ -13,7 +13,7 @@ namespace Package.Tests
             GPXFile gpxFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx");
 
             // ACT
-            var x = gpxFile.GPX.Waypoints.Length;
+            var x = gpxFile.Waypoints.Length;
 
             // ASSERT
         }

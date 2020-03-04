@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Package.Common
 {
-    public class XmlBase
+    public abstract class XmlBase
     {
         [XmlAnyElement]
         public XmlElement[] Unsupported { get; set; }

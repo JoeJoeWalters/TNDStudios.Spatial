@@ -9,10 +9,9 @@ namespace TNDStudios.Spatial.Documents
 {
     // http://www.topografix.com/GPX/1/1/gpx.xsd
     [Serializable]
-    public class GPXFile : XmlBase
+    [XmlRoot("gpx", Namespace = "http://www.topografix.com/GPX/1/1")]
+    public class GPXFile : GPXType
     {
-        [XmlAttribute("gpx")]
-        public GPXType GPX { get; set; }
     }
 
     [Serializable]
@@ -46,25 +45,25 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// The name of the GPX file.
         /// </summary>
-        [XmlAttribute("name")]
+        [XmlElement("name")]
         public String Name { get; set; }
 
         /// <summary>
         /// A description of the contents of the GPX file.
         /// </summary>
-        [XmlAttribute("desc")]
+        [XmlElement("desc")]
         public String Description { get; set; }
 
         /// <summary>
         /// The person or organization who created the GPX file.
         /// </summary>
-        [XmlAttribute("author")]
+        [XmlElement("author")]
         public GPXPerson Author { get; set; }
 
         /// <summary>
         /// Copyright and license information governing use of the file.
         /// </summary>
-        [XmlAttribute("copyright")]
+        [XmlElement("copyright")]
         public GPXCopyright Copyright { get; set; }
 
         /// <summary>
@@ -76,25 +75,25 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// The creation date of the file.
         /// </summary>
-        [XmlAttribute("time")]
+        [XmlElement("time")]
         public DateTime CreatedDateTime { get; set; }
 
         /// <summary>
         /// Keywords associated with the file. Search engines or databases can use this information to classify the data.
         /// </summary>
-        [XmlAttribute("keywords")]
+        [XmlElement("keywords")]
         public String Keywords { get; set; }
 
         /// <summary>
         /// Minimum and maximum coordinates which describe the extent of the coordinates in the file.
         /// </summary>
-        [XmlAttribute("bounds")]
+        [XmlElement("bounds")]
         public GPXBounds Bounds { get; set; }
 
         /// <summary>
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
-        [XmlArray("extensions")]
+        [XmlElement("extensions")]
         public GPXExtension[] Extensions { get; set; }
     }
 
