@@ -370,8 +370,8 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// A Track Point holds the coordinates, elevation, timestamp, and metadata for a single point in a track.
         /// </summary>
-        [XmlArrayItem("trkpt")]
-        public List<GPXWaypoint> TrackPoints { get; set; } = new List<GPXWaypoint>();
+        [XmlElement("trkpt")]
+        public GPXWaypoint[] TrackPoints { get; set; };
 
         /// <summary>
         /// You can add extend GPX by adding your own elements from another schema here.
@@ -535,8 +535,8 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// Link to Web site or other external information about person.
         /// </summary>
-        [XmlArray("link")]
-        public List<GPXLink> Links { get; set; } = new List<GPXLink>();
+        [XmlElement("link")]
+        public GPXLink Link { get; set; } = new GPXLink();
     }
 
     /// <summary>
