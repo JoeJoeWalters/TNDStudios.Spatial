@@ -32,16 +32,16 @@ namespace TNDStudios.Spatial.Documents
         public GPXMetaData MetaData { get; set; } = new GPXMetaData();
 
         [XmlElement("wpt")]
-        public GPXWaypoint[] Waypoints { get; set; }
+        public List<GPXWaypoint> Waypoints { get; set; } = new List<GPXWaypoint>();
 
         [XmlElement("rte")]
-        public GPXRoute[] Routes { get; set; }
+        public List<GPXRoute> Routes { get; set; } = new List<GPXRoute>();
 
         [XmlElement("trk")]
-        public GPXTrack[] Tracks { get; set; }
+        public List<GPXTrack> Tracks { get; set; } = new List<GPXTrack>();
 
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
     }
 
     [Serializable]
@@ -99,7 +99,7 @@ namespace TNDStudios.Spatial.Documents
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ namespace TNDStudios.Spatial.Documents
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
 
         /// <summary>
         /// The latitude of the point.This is always in decimal degrees, and always in WGS84 datum.
@@ -291,13 +291,13 @@ namespace TNDStudios.Spatial.Documents
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
 
         /// <summary>
         /// A list of route points.
         /// </summary>
         [XmlElement("rtept")]
-        public GPXWaypoint[] RoutePoints { get; set; }
+        public List<GPXWaypoint> RoutePoints { get; set; } = new List<GPXWaypoint>();
     }
 
     /// <summary>
@@ -352,13 +352,13 @@ namespace TNDStudios.Spatial.Documents
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
 
         /// <summary>
         /// A Track Segment holds a list of Track Points which are logically connected in order. To represent a single GPS track where GPS reception was lost, or the GPS receiver was turned off, start a new Track Segment for each continuous span of track data.
         /// </summary>
         [XmlElement("trkseg")]
-        public GPXTrackSegment[] TrackSegments { get; set; }
+        public List<GPXTrackSegment> TrackSegments { get; set; } = new List<GPXTrackSegment>();
     }
 
     /// <summary>
@@ -371,13 +371,13 @@ namespace TNDStudios.Spatial.Documents
         /// A Track Point holds the coordinates, elevation, timestamp, and metadata for a single point in a track.
         /// </summary>
         [XmlElement("trkpt")]
-        public GPXWaypoint[] TrackPoints { get; set; };
+        public List<GPXWaypoint> TrackPoints { get; set; } = new List<GPXWaypoint>();
 
         /// <summary>
         /// You can add extend GPX by adding your own elements from another schema here.
         /// </summary>
         [XmlElement("extensions")]
-        public GPXExtension[] Extensions { get; set; }
+        public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
     }
 
     /// <summary>
