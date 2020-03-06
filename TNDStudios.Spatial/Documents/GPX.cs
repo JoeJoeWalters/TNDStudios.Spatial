@@ -112,13 +112,13 @@ namespace TNDStudios.Spatial.Documents
         /// Elevation (in meters)
         /// </summary>
         [XmlElement("ele")]
-        Decimal Elevation { get; set; } = 0.0M;
+        public Decimal Elevation { get; set; } = 0.0M;
 
         /// <summary>
         /// Creation/modification timestamp for element. Date and time in are in Univeral Coordinated Time (UTC), not local time! Conforms to ISO 8601 specification for date/time representation. Fractional seconds are allowed for millisecond timing in tracklogs.
         /// </summary>
         [XmlElement("time")]
-        DateTime CreatedDateTime { get; set; } = DateTime.MinValue;
+        public DateTime CreatedDateTime { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// Magnetic variation (in degrees) at the point (0.0 to 360.0)
@@ -229,13 +229,13 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// The latitude of the point.This is always in decimal degrees, and always in WGS84 datum.
         /// </summary>
-        [XmlElement("lat")]
+        [XmlAttribute("lat")]
         public Decimal Latitude { get; set; } = 0.0M;
 
         /// <summary>
         /// The longitude of the point. This is always in decimal degrees, and always in WGS84 datum.
         /// </summary>
-        [XmlElement("lon")]
+        [XmlAttribute("lon")]
         public Decimal Longitude { get; set; } = 0.0M;
     }
 
