@@ -1,3 +1,4 @@
+using GeoCoordinatePortable;
 using Package.Common;
 using Package.Helpers;
 using System;
@@ -23,13 +24,13 @@ namespace Package.Tests
         public void GPX_Track_Calculate_Distance()
         {
             // ARRANGE
-            List<Coord> points = gpxFile.Tracks[0].TrackSegments[0].TrackPoints.Select(pt => pt.ToCoord()).ToList();
+            List<GeoCoordinate> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
 
             // ACT
-            Double distance = TrackHelper.CalculateDistance(points);
+            Double distance = Math.Round(TrackHelper.CalculateTotalDistance(points) / 1000, 2);
 
             // ASSERT
-            Assert.True(distance > 13.25D && distance < 13.27D);
+            Assert.True(distance == 21.37D);
         }
 
         [Fact]
@@ -46,6 +47,19 @@ namespace Package.Tests
             Assert.Equal(1, trackCount);
             Assert.Equal(1, segmentCount);
             Assert.True(trackpointCount > 1);
+        }
+
+        [Fact]
+        public void GPX_Track_Array_To_Coords()
+        {
+            // ARRANGE
+
+            // ACT
+            Int32 trackpointCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?[0].TrackPoints.Count;
+            Int32 coordCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?[0].ToCoords().Count;
+
+            // ASSERT
+            Assert.Equal(trackpointCount, coordCount);
         }
     }
 }

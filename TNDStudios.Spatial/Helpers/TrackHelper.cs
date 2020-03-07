@@ -1,14 +1,13 @@
-﻿using Package.Common;
+﻿using GeoCoordinatePortable;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Package.Helpers
 {
     public class TrackHelper
     {
 
-        public static Double CalculateDistance(List<Coord> points)
+        public static Double CalculateTotalDistance(List<GeoCoordinate> points)
         {
             Double distance = 0D;
 
@@ -16,7 +15,7 @@ namespace Package.Helpers
             // to make sure we always have the end point one step ahead
             for (var coordId = 1; coordId < points.Count; coordId++)
             {
-                distance += points[coordId].Distance(points[coordId - 1]);
+                distance += points[coordId].GetDistanceTo(points[coordId - 1]);
             }
 
             return distance;
