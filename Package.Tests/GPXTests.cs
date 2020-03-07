@@ -35,6 +35,21 @@ namespace Package.Tests
         }
 
         [Fact]
+        public void GPX_Track_Calculate_Speeds()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
+
+            // ACT
+            points = points.CalculateSpeeds();
+            Int32 pointsWithSpeed = 0;
+            points.ForEach(point => { pointsWithSpeed += ((point.Speed > 0) ? 1 : 0); });
+
+            // ASSERT
+            Assert.Equal(points.Count, pointsWithSpeed);
+        }
+
+        [Fact]
         public void GPX_Track_Array_Mapping_Success()
         {
             // ARRANGE

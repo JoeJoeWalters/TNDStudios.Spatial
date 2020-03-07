@@ -13,7 +13,12 @@ namespace Package.Helpers
             // to make sure we always have the end point one step ahead
             for (var coordId = 1; coordId < points.Count; coordId++)
             {
-                Double distance = points[coordId].GetDistanceTo(points[coordId - 1]);
+                if (coordId == 1) { points[0].Speed = 0; }
+                else if (coordId > 1)
+                {
+                    // Calculate speed from last point to this one
+                    points[coordId].CalculateSpeed(points[coordId - 1]);
+                }
             }
 
             return points;

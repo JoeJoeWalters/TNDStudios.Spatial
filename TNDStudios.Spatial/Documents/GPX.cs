@@ -130,7 +130,10 @@ namespace TNDStudios.Spatial.Documents
         [XmlIgnore]
         public DateTime CreatedDateTime = DateTime.MinValue;
         [XmlElement("time")]
-        public String Time { get; set; }
+        public String Time { 
+            get { return CreatedDateTime.ToString(GPXType.DateTimeFormat); }
+            set { this.CreatedDateTime = DateTime.Parse(value); } 
+        }
 
         /// <summary>
         /// Magnetic variation (in degrees) at the point (0.0 to 360.0)
