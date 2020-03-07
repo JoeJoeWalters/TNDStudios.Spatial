@@ -1,13 +1,25 @@
 ﻿using GeoCoordinatePortable;
+using Package.Documents;
 using System;
 using System.Collections.Generic;
 
 namespace Package.Helpers
 {
-    public class TrackHelper
+    public static class TrackHelper
     {
+        public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)
+        {
+            // Loop the coords from start to finish missing the first 
+            // to make sure we always have the end point one step ahead
+            for (var coordId = 1; coordId < points.Count; coordId++)
+            {
+                Double distance = points[coordId].GetDistanceTo(points[coordId - 1]);
+            }
 
-        public static Double CalculateTotalDistance(List<GeoCoordinate> points)
+            return points;
+        }
+
+        public static Double CalculateTotalDistance(this List<GeoCoordinateExtended> points)
         {
             Double distance = 0D;
 

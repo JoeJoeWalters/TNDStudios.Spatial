@@ -1,5 +1,7 @@
 ﻿using GeoCoordinatePortable;
 using Package.Common;
+using Package.Documents;
+using Package.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -252,12 +254,13 @@ namespace TNDStudios.Spatial.Documents
         /// Convert point to native coordinate
         /// </summary>
         /// <returns></returns>
-        public GeoCoordinate ToCoord()
+        public GeoCoordinateExtended ToCoord()
         {
-            return new GeoCoordinate(
+            return new GeoCoordinateExtended(
                 (Double)this.Latitude,
                 (Double)this.Longitude,
-                (Double)this.Elevation
+                (Double)this.Elevation,
+                this.CreatedDateTime
                 );
         }
     }
@@ -406,7 +409,7 @@ namespace TNDStudios.Spatial.Documents
         /// Convert the list of points to a list of common coordinates
         /// </summary>
         /// <returns></returns>
-        public List<GeoCoordinate> ToCoords() => TrackPoints.Select(pt => pt.ToCoord()).ToList();
+        public List<GeoCoordinateExtended> ToCoords() => TrackPoints.Select(pt => pt.ToCoord()).ToList().CalculateSpeeds();
     }
 
     /// <summary>

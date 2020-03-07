@@ -1,5 +1,6 @@
 using GeoCoordinatePortable;
 using Package.Common;
+using Package.Documents;
 using Package.Helpers;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,10 @@ namespace Package.Tests
         public void GPX_Track_Calculate_Distance()
         {
             // ARRANGE
-            List<GeoCoordinate> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
+            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
 
             // ACT
-            Double distance = Math.Round(TrackHelper.CalculateTotalDistance(points) / 1000, 2);
+            Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
 
             // ASSERT
             Assert.True(distance == 21.37D);
