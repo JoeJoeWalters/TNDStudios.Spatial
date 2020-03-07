@@ -1,6 +1,7 @@
 ﻿using Package.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -22,6 +23,9 @@ namespace TNDStudios.Spatial.Documents
     [Serializable]
     public class GPXType : XmlBase
     {
+        // ISO 8601 formatter instead of using roundtrip kind parsing as needed for read and write (get and set)
+        public static String DateTimeFormat = "yyyy-MM-ddTHH:mm:sszzz";
+
         [XmlAttribute("creator")]
         public String Creator { get; set; } = String.Empty;
 
@@ -80,8 +84,10 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// The creation date of the file.
         /// </summary>
+        [XmlIgnore]
+        public DateTime CreatedDateTime = DateTime.MinValue;
         [XmlElement("time")]
-        public DateTime CreatedDateTime { get; set; } = DateTime.MinValue;
+        public String Time { get; set; }
 
         /// <summary>
         /// Keywords associated with the file. Search engines or databases can use this information to classify the data.
@@ -117,8 +123,10 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// Creation/modification timestamp for element. Date and time in are in Univeral Coordinated Time (UTC), not local time! Conforms to ISO 8601 specification for date/time representation. Fractional seconds are allowed for millisecond timing in tracklogs.
         /// </summary>
+        [XmlIgnore]
+        public DateTime CreatedDateTime = DateTime.MinValue;
         [XmlElement("time")]
-        public DateTime CreatedDateTime { get; set; } = DateTime.MinValue;
+        public String Time { get; set; }
 
         /// <summary>
         /// Magnetic variation (in degrees) at the point (0.0 to 360.0)
@@ -243,7 +251,7 @@ namespace TNDStudios.Spatial.Documents
     /// rte represents route - an ordered list of waypoints representing a series of turn points leading to a destination.
     /// </summary>
     [Serializable]
-    public class GPXRoute : XmlBase 
+    public class GPXRoute : XmlBase
     {
         /// <summary>
         /// GPS name of route.
@@ -365,7 +373,7 @@ namespace TNDStudios.Spatial.Documents
     /// A Track Segment holds a list of Track Points which are logically connected in order. To represent a single GPS track where GPS reception was lost, or the GPS receiver was turned off, start a new Track Segment for each continuous span of track data.
     /// </summary>
     [Serializable]
-    public class GPXTrackSegment : XmlBase 
+    public class GPXTrackSegment : XmlBase
     {
         /// <summary>
         /// A Track Point holds the coordinates, elevation, timestamp, and metadata for a single point in a track.
@@ -384,8 +392,8 @@ namespace TNDStudios.Spatial.Documents
     /// You can add extend GPX by adding your own elements from another schema here.
     /// </summary>
     [Serializable]
-    public class GPXExtension : XmlBase 
-    { 
+    public class GPXExtension : XmlBase
+    {
         // All Dynamic handled by Base class
     }
 
@@ -498,8 +506,10 @@ namespace TNDStudios.Spatial.Documents
         /// <summary>
         /// The time that the point was recorded.
         /// </summary>
+        [XmlIgnore]
+        public DateTime CreatedDateTime = DateTime.MinValue;
         [XmlElement("time")]
-        public DateTime CreatedDateTime { get; set; } = DateTime.MinValue;
+        public String Time { get; set; }
 
         /// <summary>
         /// The latitude of the point. Decimal degrees, WGS84 datum.
