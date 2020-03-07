@@ -23,7 +23,7 @@ namespace Package.Tests
         public void GPX_Track_Calculate_Distance()
         {
             // ARRANGE
-            List<Coord> points = gpxFile.Tracks[0].TrackSegments[0].TrackPoints.Select(pt => new Coord() { Latitude = (Double)pt.Latitude, Longitude = (Double)pt.Longitude }).ToList();
+            List<Coord> points = gpxFile.Tracks[0].TrackSegments[0].TrackPoints.Select(pt => pt.ToCoord()).ToList();
 
             // ACT
             Double distance = TrackHelper.CalculateDistance(points);

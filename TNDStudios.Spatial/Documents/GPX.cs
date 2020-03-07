@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -245,6 +246,19 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlAttribute("lon")]
         public Decimal Longitude { get; set; } = 0.0M;
+
+        /// <summary>
+        /// Convert point to native coordinate
+        /// </summary>
+        /// <returns></returns>
+        public Coord ToCoord()
+        {
+            return new Coord()
+            {
+                Latitude = (Double)this.Latitude,
+                Longitude = (Double)this.Longitude
+            };
+        }
     }
 
     /// <summary>
@@ -386,6 +400,12 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlElement("extensions")]
         public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
+
+        /// <summary>
+        /// Convert the list of points to a list of common coordinates
+        /// </summary>
+        /// <returns></returns>
+        public List<Coord> ToCoords() => TrackPoints.Select(pt => pt.ToCoord()).ToList();
     }
 
     /// <summary>
@@ -489,6 +509,12 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlElement("pt")]
         public List<GPXPoint> Points { get; set; } = new List<GPXPoint>();
+
+        /// <summary>
+        /// Convert the list of points to a list of common coordinates
+        /// </summary>
+        /// <returns></returns>
+        public List<Coord> ToCoords() => Points.Select(pt => pt.ToCoord()).ToList();
     }
 
     /// <summary>
@@ -522,6 +548,19 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlElement("lon")]
         public Decimal Longitude { get; set; } = 0.0M;
+
+        /// <summary>
+        /// Convert point to native coordinate
+        /// </summary>
+        /// <returns></returns>
+        public Coord ToCoord()
+        {
+            return new Coord() 
+            {
+                Latitude = (Double)this.Latitude, 
+                Longitude = (Double)this.Longitude
+            };
+        }
     }
 
     /// <summary>
