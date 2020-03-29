@@ -388,6 +388,17 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlElement("trkseg")]
         public List<GPXTrackSegment> TrackSegments { get; set; } = new List<GPXTrackSegment>();
+
+        /// <summary>
+        /// Convert the list of points to a list of common coordinates
+        /// </summary>
+        /// <returns></returns>
+        public List<GeoCoordinateExtended> ToCoords()
+        {
+            List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
+            TrackSegments.ForEach(seg => merged.AddRange(seg.ToCoords()));
+            return merged;
+        }
     }
 
     /// <summary>

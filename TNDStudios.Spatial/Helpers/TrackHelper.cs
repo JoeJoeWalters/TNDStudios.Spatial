@@ -37,5 +37,39 @@ namespace Package.Helpers
 
             return distance;
         }
+
+
+        /// <summary>
+        /// Calculates to the total time for the track in different ways
+        /// depending on the calculation type, relies on the speeds having already been calculated by the appropriate method
+        /// </summary>
+        /// <param name="timeCalculationType"></param>
+        /// <returns></returns>
+        public static TimeSpan TotalTime(this List<GeoCoordinateExtended> points, TimeCalculationType timeCalculationType)
+        {
+            TimeSpan result = new TimeSpan();
+
+            switch (timeCalculationType)
+            {
+                case TimeCalculationType.ActualTime:
+                    result = points[points.Count - 1].Time - points[0].Time; // Difference in time between the first and last points in the track
+                    break;
+
+                case TimeCalculationType.MovingTime:
+
+                    // Loop all points in the track
+                    for (var coordId = 1; coordId < points.Count; coordId++)
+                    {
+                        if (points[coordId].Speed > 0)
+                        {
+                            result = result.Add(points[coordId].Time - points[coordId - 1].Time);
+                        }
+                    }
+
+                    break;
+            }
+
+            return result;
+        }
     }
 }

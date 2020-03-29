@@ -22,7 +22,7 @@ namespace Package.Tests
         }
 
         [Fact]
-        public void GPX_Track_Calculate_Distance()
+        public void GPX_Track_Segment_Calculate_Distance()
         {
             // ARRANGE
             List<GeoCoordinateExtended> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
@@ -35,18 +35,42 @@ namespace Package.Tests
         }
 
         [Fact]
-        public void GPX_Track_Calculate_Speeds()
+        public void GPX_Track_Calculate_Distance()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
+            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
 
             // ACT
-            points = points.CalculateSpeeds();
-            Int32 pointsWithSpeed = 0;
-            points.ForEach(point => { pointsWithSpeed += ((point.Speed > 0) ? 1 : 0); });
+            Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
 
             // ASSERT
-            Assert.Equal(points.Count, pointsWithSpeed);
+            Assert.True(distance == 21.37D);
+        }
+
+        [Fact]
+        public void GPX_Track_Actual_Time()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
+
+            // ACT]
+            TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+
+            // ASSERT
+            Assert.Equal(133.0, Math.Floor(calculatedSpan.TotalMinutes));
+        }
+
+        [Fact]
+        public void GPX_Track_Moving_Time()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
+
+            // ACT]
+            TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
+
+            // ASSERT
+            Assert.Equal(124.0, Math.Floor(calculatedSpan.TotalMinutes));
         }
 
         [Fact]
