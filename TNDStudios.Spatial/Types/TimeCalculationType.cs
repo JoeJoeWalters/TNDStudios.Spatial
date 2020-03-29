@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Package.Documents
+namespace TNDStudios.Spatial.Types
 {
     public enum TimeCalculationType : Int32
     {

@@ -1,14 +1,10 @@
-﻿using GeoCoordinatePortable;
-using Package.Common;
-using Package.Documents;
-using Package.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using TNDStudios.Spatial.Common;
+using TNDStudios.Spatial.Helpers;
 
 /// <summary>
 /// https://docs.microsoft.com/en-us/dotnet/standard/serialization/controlling-xml-serialization-using-attributes

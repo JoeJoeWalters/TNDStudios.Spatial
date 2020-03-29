@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Serialization;
 
-namespace Package.Common
+namespace TNDStudios.Spatial.Common
 {
     public abstract class XmlBase
     {

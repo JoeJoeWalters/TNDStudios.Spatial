@@ -1,9 +1,8 @@
-﻿using GeoCoordinatePortable;
-using Package.Documents;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TNDStudios.Spatial.Documents;
 
-namespace Package.Helpers
+namespace TNDStudios.Spatial.Helpers
 {
     public static class TrackHelper
     {
@@ -57,12 +56,13 @@ namespace Package.Helpers
 
                 case TimeCalculationType.MovingTime:
 
-                    // Loop all points in the track
+                    // Loop all points in the track and only count those that had speed (movement) between the two points
                     for (var coordId = 1; coordId < points.Count; coordId++)
                     {
+                        // Any movement recorded?
                         if (points[coordId].Speed > 0)
                         {
-                            result = result.Add(points[coordId].Time - points[coordId - 1].Time);
+                            result = result.Add(points[coordId].Time - points[coordId - 1].Time); // Add the timespan between the points to the total
                         }
                     }
 
@@ -70,6 +70,18 @@ namespace Package.Helpers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Compare one set of points to another to give a similarity score based on how common they are
+        /// </summary>
+        /// <param name="points">The set of points to compare</param>
+        /// <param name="compareTo">The set of points to compare the list of points to</param>
+        /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
+        /// <returns></returns>
+        public static Double Compare(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
+        {
+            return 0.0;
         }
     }
 }

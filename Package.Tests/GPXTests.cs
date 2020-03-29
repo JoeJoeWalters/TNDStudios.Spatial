@@ -8,7 +8,7 @@ using System.Linq;
 using TNDStudios.Spatial.Documents;
 using Xunit;
 
-namespace Package.Tests
+namespace TNDStudios.Spatial.Tests
 {
     public class GPXTests : TestBase
     {
@@ -100,6 +100,48 @@ namespace Package.Tests
 
             // ASSERT
             Assert.Equal(trackpointCount, coordCount);
+        }
+
+        [Fact]
+        public void GPX_Track_Compare_Positive()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare2 = gpxFile.Tracks[0].ToCoords();
+
+            // ACT
+            Double score = compare1.Compare(compare2, ActivityType.Running);
+
+            // ASSERT
+            Assert.Equal(100.0D, score); // Should be a perfect match
+        }
+
+        [Fact]
+        public void GPX_Track_Compare_Negative()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare2 = gpxTrackFile.Tracks[0].ToCoords();
+
+            // ACT
+            Double score = compare1.Compare(compare2, ActivityType.Running);
+
+            // ASSERT
+            Assert.Equal(0.0D, score); // Should be a total mismatch
+        }
+
+        [Fact]
+        public void GPX_Track_Compare_Partial()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare2 = gpxTrackFile.Tracks[0].ToCoords();
+
+            // ACT
+            Double score = compare1.Compare(compare2, ActivityType.Running);
+
+            // ASSERT
+            Assert.Equal(0.0D, score); // Should be a partial match
         }
     }
 }

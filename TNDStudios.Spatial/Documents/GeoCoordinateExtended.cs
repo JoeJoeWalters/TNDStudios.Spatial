@@ -1,7 +1,7 @@
 ﻿using GeoCoordinatePortable;
 using System;
 
-namespace Package.Documents
+namespace TNDStudios.Spatial.Documents
 {
     /// <summary>
     /// Geocoordinate extended to add time of the coordinate so it

@@ -1,10 +1,9 @@
 ﻿using GeoCoordinatePortable;
 using Newtonsoft.Json;
-using Package.Common;
 using System;
 using System.Collections.Generic;
 
-namespace Package.Documents
+namespace TNDStudios.Spatial.Documents
 {
     [JsonObject]
     public class JourneySummary
