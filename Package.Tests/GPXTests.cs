@@ -1,12 +1,10 @@
-using GeoCoordinatePortable;
-using Package.Common;
-using Package.Documents;
-using Package.Helpers;
+using TNDStudios.Spatial.Documents;
+using TNDStudios.Spatial.Helpers;
+using TNDStudios.Spatial.Types;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using TNDStudios.Spatial.Documents;
 using Xunit;
+using Newtonsoft.Json;
 
 namespace TNDStudios.Spatial.Tests
 {
@@ -142,6 +140,23 @@ namespace TNDStudios.Spatial.Tests
 
             // ASSERT
             Assert.Equal(0.0D, score); // Should be a partial match
+        }
+
+        [Fact]
+        public void GPX_Round_Coordinates_By_Meters()
+        {
+            // ARRANGE
+            GeoCoordinateExtended source = gpxFile.Tracks[0].ToCoords()[2];
+            GeoCoordinateExtended compareTo = source.Clone();
+            Double roundingMeters = 2D;
+
+            // ACT
+            compareTo.Round(roundingMeters); // Round second coordinate to 2 meter grid point
+            Double distance = compareTo.GetDistanceTo(source); // Calculate the distance in meters 
+            Double hypotenuse = Math.Sqrt(Math.Pow(roundingMeters, 2) + Math.Pow(roundingMeters, 2));
+
+            // ASSERT
+            Assert.True(distance < hypotenuse); // Should be smaller than the hypotenuse
         }
     }
 }

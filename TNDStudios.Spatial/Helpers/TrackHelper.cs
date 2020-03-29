@@ -1,11 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TNDStudios.Spatial.Documents;
+using TNDStudios.Spatial.Types;
 
 namespace TNDStudios.Spatial.Helpers
 {
     public static class TrackHelper
     {
+        public static Double EarthRadius = 6378137.00D;
+
         public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)
         {
             // Loop the coords from start to finish missing the first 
@@ -73,6 +78,39 @@ namespace TNDStudios.Spatial.Helpers
         }
 
         /// <summary>
+        /// Clone an existing set of points so they can be modified breaking the reference to the origional list
+        /// </summary>
+        /// <param name="points">The set of points to clone</param>
+        /// <returns>The new list of points cloned from the source</returns>
+        public static List<GeoCoordinateExtended> Clone(this List<GeoCoordinateExtended> points)
+            => JsonConvert.DeserializeObject<List<GeoCoordinateExtended>>(JsonConvert.SerializeObject(points)); // Serialise and then deserialise the object to break the references to new objects
+
+        public static GeoCoordinateExtended Clone(this GeoCoordinateExtended coord)
+            => JsonConvert.DeserializeObject<GeoCoordinateExtended>(JsonConvert.SerializeObject(coord));
+
+        /// <summary>
+        /// Take a set of points and modify them to be rounded to the nearest X meters
+        /// </summary>
+        /// <param name="points">The set of points to round</param>
+        /// <param name="roundingMeters">The meter preceision to round to</param>
+        /// <returns></returns>
+        public static List<GeoCoordinateExtended> Round(this List<GeoCoordinateExtended> points, Double meters)
+            => points.Clone().Select(coord => coord.Round(meters)).ToList();
+
+        public static GeoCoordinateExtended Round(this GeoCoordinateExtended coord, Double meters)
+        {
+            // Coordinate offsets in radians
+            Double latitudeOffset = meters / EarthRadius;
+            Double longitudeOffset = meters / (EarthRadius * Math.Cos(Math.PI * coord.Latitude / 180));
+
+            // Offset Position, decimal degrees
+            coord.Latitude = coord.Latitude + latitudeOffset * 180 / Math.PI;
+            coord.Longitude = coord.Longitude + longitudeOffset * 180 / Math.PI;
+
+            return coord;
+        }
+
+        /// <summary>
         /// Compare one set of points to another to give a similarity score based on how common they are
         /// </summary>
         /// <param name="points">The set of points to compare</param>
@@ -81,7 +119,15 @@ namespace TNDStudios.Spatial.Helpers
         /// <returns></returns>
         public static Double Compare(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
         {
-            return 0.0;
+            Double score = 0.0D;
+
+            Int32 sourcePosition = 0;
+            Int32 comparePosition = 0;
+
+            List<GeoCoordinateExtended> sourceRounded = points.Round(2D);
+            List<GeoCoordinateExtended> compareRounded = points.Round(2D);
+
+            return score;
         }
     }
 }

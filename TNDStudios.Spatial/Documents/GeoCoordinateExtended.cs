@@ -11,6 +11,13 @@ namespace TNDStudios.Spatial.Documents
     {
         public DateTime Time { get; set; } = DateTime.MinValue;
 
+        /// <summary>
+        /// Default constructor for Newtonsoft to perform serialisation etc.
+        /// </summary>
+        public GeoCoordinateExtended()
+        {
+        }
+
         public GeoCoordinateExtended(Double latitude, Double longitude, Double altitude, DateTime time) : base(latitude, longitude, altitude)
         {
             Time = time;

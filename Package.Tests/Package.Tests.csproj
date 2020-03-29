@@ -23,12 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TNDStudios.Spatial\Package.csproj" />
+    <EmbeddedResource Include="GPXFiles\GPXRouteOnly.gpx" />
+    <EmbeddedResource Include="GPXFiles\HalfMarathon.gpx" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="GPXFiles\GPXRouteOnly.gpx" />
-    <EmbeddedResource Include="GPXFiles\HalfMarathon.gpx" />
+    <ProjectReference Include="..\TNDStudios.Spatial\Package.csproj" />
   </ItemGroup>
 
 </Project>
