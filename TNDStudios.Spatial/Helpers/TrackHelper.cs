@@ -9,7 +9,8 @@ namespace TNDStudios.Spatial.Helpers
 {
     public static class TrackHelper
     {
-        public static Double EarthRadius = 6378137.00D;
+        public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
+        public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
 
         public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)
         {
@@ -100,12 +101,14 @@ namespace TNDStudios.Spatial.Helpers
         public static GeoCoordinateExtended Round(this GeoCoordinateExtended coord, Double meters)
         {
             // Coordinate offsets in radians
-            Double latitudeOffset = meters / EarthRadius;
-            Double longitudeOffset = meters / (EarthRadius * Math.Cos(Math.PI * coord.Latitude / 180));
+            Double latitudeMeters = coord.Latitude * LatitudeDistance;
+            Double longitudeMeters = coord.Longitude * (EarthRadius * Math.Cos(coord.Latitude) / 360.0D);
 
-            // Offset Position, decimal degrees
-            coord.Latitude = coord.Latitude + latitudeOffset * 180 / Math.PI;
-            coord.Longitude = coord.Longitude + longitudeOffset * 180 / Math.PI;
+            Double roundedLatitude = meters * Math.Round(latitudeMeters / meters, 0);
+            Double roundedLongitude = meters * Math.Round(longitudeMeters / meters, 0);
+
+            coord.Latitude = roundedLatitude / LatitudeDistance;
+            coord.Longitude = roundedLongitude / (EarthRadius * Math.Cos(coord.Latitude) / 360.0D);
 
             return coord;
         }

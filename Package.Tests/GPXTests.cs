@@ -146,7 +146,7 @@ namespace TNDStudios.Spatial.Tests
         public void GPX_Round_Coordinates_By_Meters()
         {
             // ARRANGE
-            GeoCoordinateExtended source = gpxFile.Tracks[0].ToCoords()[2];
+            GeoCoordinateExtended source = gpxFile.Tracks[0].ToCoords()[0];
             GeoCoordinateExtended compareTo = source.Clone();
             Double roundingMeters = 2D;
 
