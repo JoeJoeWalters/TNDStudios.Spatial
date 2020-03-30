@@ -12,11 +12,15 @@ namespace TNDStudios.Spatial.Tests
     {
         private readonly GPXFile gpxTrackFile;
         private readonly GPXFile gpxFile;
+        private readonly GPXFile gpxCompare1;
+        private readonly GPXFile gpxCompare2;
 
         public GPXTests()
         {
             gpxTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx");
             gpxFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx");
+            gpxCompare1 = base.GetXMLData<GPXFile>("GPXFiles/Compare1.gpx");
+            gpxCompare2 = base.GetXMLData<GPXFile>("GPXFiles/Compare2.gpx");
         }
 
         [Fact]
@@ -104,21 +108,21 @@ namespace TNDStudios.Spatial.Tests
         public void GPX_Track_Compare_Positive()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
-            List<GeoCoordinateExtended> compare2 = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare2 = gpxCompare1.Tracks[0].ToCoords();
 
             // ACT
             Double score = compare1.Compare(compare2, ActivityType.Running);
 
             // ASSERT
-            Assert.Equal(100.0D, score); // Should be a perfect match
+            Assert.Equal(1.0D, score); // Should be a perfect match
         }
 
         [Fact]
         public void GPX_Track_Compare_Negative()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
             List<GeoCoordinateExtended> compare2 = gpxTrackFile.Tracks[0].ToCoords();
 
             // ACT
@@ -129,17 +133,17 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Compare_Partial()
+        public void GPX_Track_Compare_Near()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxFile.Tracks[0].ToCoords();
-            List<GeoCoordinateExtended> compare2 = gpxTrackFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare2 = gpxCompare2.Tracks[0].ToCoords();
 
             // ACT
             Double score = compare1.Compare(compare2, ActivityType.Running);
 
             // ASSERT
-            Assert.Equal(0.0D, score); // Should be a partial match
+            Assert.True(score > 0.75); // Should be a partial match
         }
 
         [Fact]
