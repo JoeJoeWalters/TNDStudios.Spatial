@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Types;
 
@@ -128,7 +129,13 @@ namespace TNDStudios.Spatial.Helpers
             Int32 comparePosition = 0;
 
             List<GeoCoordinateExtended> sourceRounded = points.Round(2D);
-            List<GeoCoordinateExtended> compareRounded = points.Round(2D);
+            List<GeoCoordinateExtended> compareRounded = compareTo.Round(2D);
+
+            // Score based on if the 
+            List<GeoCoordinateExtended> xor = sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
+
+            score = (100.0 / sourceRounded.Count) * xor.Count;
+            score = (score < 0) ? 0 : score;
 
             return score;
         }
