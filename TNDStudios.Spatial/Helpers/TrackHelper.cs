@@ -128,8 +128,8 @@ namespace TNDStudios.Spatial.Helpers
             Int32 sourcePosition = 0;
             Int32 comparePosition = 0;
 
-            List<GeoCoordinateExtended> sourceRounded = points.Round(3D);
-            List<GeoCoordinateExtended> compareRounded = compareTo.Round(3D);
+            List<GeoCoordinateExtended> sourceRounded = points.Round(5D);
+            List<GeoCoordinateExtended> compareRounded = compareTo.Round(5D);
 
             // Score based on if the 
             List<GeoCoordinateExtended> matches = sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
