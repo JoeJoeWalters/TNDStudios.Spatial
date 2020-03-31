@@ -125,19 +125,29 @@ namespace TNDStudios.Spatial.Helpers
         {
             Double score = 0.0D;
 
-            Int32 sourcePosition = 0;
-            Int32 comparePosition = 0;
+            // Score based on if the 
+            List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType);
 
+            score = (1.0 / points.Count) * matches.Count;
+            score = (score < 0) ? 0 : score;
+
+            return score;
+        }
+
+        /// <summary>
+        /// Work out the delta between two sets of points rounded to a given activity type
+        /// </summary>
+        /// <param name="points">The set of points to compare</param>
+        /// <param name="compareTo">The set of points to compare the list of points to</param>
+        /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
+        /// <returns></returns>
+        public static List<GeoCoordinateExtended> Delta(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
+        {
             List<GeoCoordinateExtended> sourceRounded = points.Round(5D);
             List<GeoCoordinateExtended> compareRounded = compareTo.Round(5D);
 
             // Score based on if the 
-            List<GeoCoordinateExtended> matches = sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
-
-            score = (1.0 / sourceRounded.Count) * matches.Count;
-            score = (score < 0) ? 0 : score;
-
-            return score;
+            return sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
         }
     }
 }
