@@ -126,7 +126,7 @@ namespace TNDStudios.Spatial.Helpers
             Double score = 0.0D;
 
             // Score based on if the 
-            List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType);
+            List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType, CompareType.Matches);
 
             score = (1.0 / points.Count) * matches.Count;
             score = (score < 0) ? 0 : score;
@@ -141,13 +141,18 @@ namespace TNDStudios.Spatial.Helpers
         /// <param name="compareTo">The set of points to compare the list of points to</param>
         /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
         /// <returns></returns>
-        public static List<GeoCoordinateExtended> Delta(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
+        public static List<GeoCoordinateExtended> Delta(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType, CompareType compareType)
         {
             List<GeoCoordinateExtended> sourceRounded = points.Round(5D);
             List<GeoCoordinateExtended> compareRounded = compareTo.Round(5D);
 
-            // Score based on if the 
-            return sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
+            switch (compareType)
+            {
+                case CompareType.Matches:
+                    return sourceRounded.Where(source => compareRounded.Any(compare => source == compare)).ToList();
+                default:
+                    return sourceRounded.Where(source => !compareRounded.Any(compare => source == compare)).ToList();
+            }
         }
     }
 }
