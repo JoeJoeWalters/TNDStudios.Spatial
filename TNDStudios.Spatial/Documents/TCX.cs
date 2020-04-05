@@ -1,1 +1,1 @@
-﻿// https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
+﻿// https://www8.garmin.com/Sxmlschemas/TrainingCenterDatabasev2.xsd

@@ -46,6 +46,39 @@ namespace TNDStudios.Spatial.Documents
 
         [XmlElement("extensions")]
         public List<GPXExtension> Extensions { get; set; } = new List<GPXExtension>();
+
+        /// <summary>
+        /// Convert this GPX Type to the common GeoFile format
+        /// </summary>
+        /// <returns>The GPX converted to GeoFile format</returns>
+        public GeoFile ToGeoFile()
+        {
+            // Create a blank new file with the basic information
+            GeoFile result = new GeoFile()
+            {
+                Name = this.MetaData.Name,
+                Author = this.Creator,
+                Routes = new List<GeoFileRoute>()
+            };
+
+            // Loop the routes and add them to the GeoFile version
+            result.Routes = this.Routes.Select(route =>
+                new GeoFileRoute()
+                {
+                    Name = route.Name,
+                    Points = route.ToCoords()
+                }).ToList();
+
+            // Loop the tracks and add them to the GeoFile version
+            result.Routes.AddRange(this.Tracks.Select(track =>
+                new GeoFileRoute()
+                {
+                    Name = track.Name,
+                    Points = track.ToCoords()
+                }).ToList());
+
+            return result;
+        }
     }
 
     [Serializable]
@@ -126,9 +159,10 @@ namespace TNDStudios.Spatial.Documents
         [XmlIgnore]
         public DateTime CreatedDateTime = DateTime.MinValue;
         [XmlElement("time")]
-        public String Time { 
+        public String Time
+        {
             get { return CreatedDateTime.ToString(GPXType.DateTimeFormat); }
-            set { this.CreatedDateTime = DateTime.Parse(value); } 
+            set { this.CreatedDateTime = DateTime.Parse(value); }
         }
 
         /// <summary>
@@ -323,6 +357,12 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         [XmlElement("rtept")]
         public List<GPXWaypoint> RoutePoints { get; set; } = new List<GPXWaypoint>();
+
+        /// <summary>
+        /// Convert the list of points to a list of common coordinates
+        /// </summary>
+        /// <returns></returns>
+        public List<GeoCoordinateExtended> ToCoords() => RoutePoints.Select(pt => pt.ToCoord()).ToList();
     }
 
     /// <summary>
@@ -419,7 +459,7 @@ namespace TNDStudios.Spatial.Documents
         /// Convert the list of points to a list of common coordinates
         /// </summary>
         /// <returns></returns>
-        public List<GeoCoordinateExtended> ToCoords() => TrackPoints.Select(pt => pt.ToCoord()).ToList().CalculateSpeeds();
+        public List<GeoCoordinateExtended> ToCoords() => TrackPoints.Select(pt => pt.ToCoord()).ToList();
     }
 
     /// <summary>

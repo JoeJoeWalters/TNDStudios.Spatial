@@ -8,26 +8,26 @@ using Newtonsoft.Json;
 
 namespace TNDStudios.Spatial.Tests
 {
-    public class GPXTests : TestBase
+    public class GeographyTests : TestBase
     {
-        private readonly GPXFile gpxTrackFile;
-        private readonly GPXFile gpxFile;
-        private readonly GPXFile gpxCompare1;
-        private readonly GPXFile gpxCompare2;
+        private readonly GeoFile geoTrackFile;
+        private readonly GeoFile geoFile;
+        private readonly GeoFile geoCompare1;
+        private readonly GeoFile geoCompare2;
 
-        public GPXTests()
+        public GeographyTests()
         {
-            gpxTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx");
-            gpxFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx");
-            gpxCompare1 = base.GetXMLData<GPXFile>("GPXFiles/Compare1.gpx");
-            gpxCompare2 = base.GetXMLData<GPXFile>("GPXFiles/Compare2.gpx");
+            geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
+            geoFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            geoCompare1 = base.GetXMLData<GPXFile>("GPXFiles/Compare1.gpx").ToGeoFile();
+            geoCompare2 = base.GetXMLData<GPXFile>("GPXFiles/Compare2.gpx").ToGeoFile();
         }
 
         [Fact]
-        public void GPX_Track_Segment_Calculate_Distance()
+        public void Track_Segment_Calculate_Distance()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].TrackSegments[0].ToCoords();
+            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT
             Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
@@ -40,7 +40,7 @@ namespace TNDStudios.Spatial.Tests
         public void GPX_Track_Calculate_Distance()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT
             Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
@@ -53,7 +53,7 @@ namespace TNDStudios.Spatial.Tests
         public void GPX_Track_Actual_Time()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT]
             TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
@@ -66,7 +66,7 @@ namespace TNDStudios.Spatial.Tests
         public void GPX_Track_Moving_Time()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = gpxFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT]
             TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
@@ -76,40 +76,37 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Array_Mapping_Success()
+        public void Track_Array_Mapping_Success()
         {
             // ARRANGE
     
             // ACT
-            Int32 trackCount = (Int32)gpxTrackFile?.Tracks?.Count;
-            Int32 segmentCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?.Count;
-            Int32 trackpointCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?[0].TrackPoints.Count;
+            Int32 trackCount = (Int32)geoTrackFile?.Routes?.Count;
+            Int32 trackpointCount = (Int32)geoTrackFile?.Routes[0].Points.Count;
 
             // ASSERT
             Assert.Equal(1, trackCount);
-            Assert.Equal(1, segmentCount);
             Assert.True(trackpointCount > 1);
         }
 
         [Fact]
-        public void GPX_Track_Array_To_Coords()
+        public void Track_Array_To_Coords()
         {
             // ARRANGE
 
             // ACT
-            Int32 trackpointCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?[0].TrackPoints.Count;
-            Int32 coordCount = (Int32)gpxTrackFile?.Tracks?[0].TrackSegments?[0].ToCoords().Count;
+            Int32 coordCount = (Int32)geoTrackFile.Routes[0].Points.Count;
 
             // ASSERT
-            Assert.Equal(trackpointCount, coordCount);
+            Assert.Equal(523, coordCount);
         }
 
         [Fact]
-        public void GPX_Track_Compare_Positive()
+        public void Track_Compare_Positive()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
-            List<GeoCoordinateExtended> compare2 = gpxCompare1.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+            List<GeoCoordinateExtended> compare2 = geoCompare1.Routes[0].Points;
 
             // ACT
             Double score = compare1.Compare(compare2, ActivityType.Running);
@@ -119,11 +116,11 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Compare_Negative()
+        public void Track_Compare_Negative()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
-            List<GeoCoordinateExtended> compare2 = gpxTrackFile.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+            List<GeoCoordinateExtended> compare2 = geoTrackFile.Routes[0].Points;
 
             // ACT
             Double score = compare1.Compare(compare2, ActivityType.Running);
@@ -133,11 +130,11 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Compare_Near()
+        public void Track_Compare_Near()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> compare1 = gpxCompare1.Tracks[0].ToCoords();
-            List<GeoCoordinateExtended> compare2 = gpxCompare2.Tracks[0].ToCoords();
+            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+            List<GeoCoordinateExtended> compare2 = geoCompare2.Routes[0].Points;
 
             // ACT
             Double score = compare1.Compare(compare2, ActivityType.Running);
@@ -147,10 +144,10 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Round_Coordinates_By_Meters()
+        public void Round_Coordinates_By_Meters()
         {
             // ARRANGE
-            GeoCoordinateExtended source = gpxFile.Tracks[0].ToCoords()[0];
+            GeoCoordinateExtended source = geoFile.Routes[0].Points[0];
             GeoCoordinateExtended compareTo = source.Clone();
             Double roundingMeters = 2D;
 
