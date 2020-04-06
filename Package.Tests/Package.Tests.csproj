@@ -15,6 +15,7 @@
     <None Remove="GPXFiles\Compare2.gpx" />
     <None Remove="GPXFiles\GPXRouteOnly.gpx" />
     <None Remove="GPXFiles\HalfMarathon.gpx" />
+    <None Remove="TCXFiles\HalfMarathon.tcx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <EmbeddedResource Include="GPXFiles\Compare2.gpx" />
     <EmbeddedResource Include="GPXFiles\GPXRouteOnly.gpx" />
     <EmbeddedResource Include="GPXFiles\HalfMarathon.gpx" />
+    <EmbeddedResource Include="TCXFiles\HalfMarathon.tcx" />
   </ItemGroup>
 
   <ItemGroup>
