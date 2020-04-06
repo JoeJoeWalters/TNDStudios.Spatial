@@ -18,7 +18,7 @@ namespace TNDStudios.Spatial.Documents
     /// </summary>
     [Serializable]
     [XmlRoot("gpx", Namespace = "http://www.topografix.com/GPX/1/1")]
-    public class GPXFile : GPXType { }
+    public class GPXFile : GPXType, IGeoFileConvertable { }
 
     [Serializable]
     public class GPXType : XmlBase
