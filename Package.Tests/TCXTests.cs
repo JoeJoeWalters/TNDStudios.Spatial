@@ -25,7 +25,7 @@ namespace TNDStudios.Spatial.Tests
             Int32 transformedCount = 0;
 
             // ACT
-            tcxTrackFile.Activities.Activity[0].Laps.ForEach(lap => origionalCount += lap.Track.TrackPoints.Count); // Count of origional
+            origionalCount = tcxTrackFile.Activities.Activity[0].ToCoords().Count; // Count of origional
             transformedCount = tcxTrackFile.ToGeoFile().Routes[0].Points.Count; // Do conversion and count
 
             // ASSERT

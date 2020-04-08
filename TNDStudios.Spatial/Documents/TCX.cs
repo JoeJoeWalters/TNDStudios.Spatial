@@ -31,7 +31,12 @@ namespace TNDStudios.Spatial.Documents
 
         public GeoFile ToGeoFile()
         {
-            throw new NotImplementedException();
+            GeoFile result = new GeoFile();
+
+            // Transform the activity to the route information
+            result.Routes = this.Activities.Activity.Select(activity => new GeoFileRoute() { Name = activity.Id, Points = activity.ToCoords() }).ToList();
+
+            return result;
         }
     }
 
@@ -150,33 +155,39 @@ namespace TNDStudios.Spatial.Documents
     {
         [XmlElement("Trackpoint")]
         public List<TCXTrackPoint> TrackPoints { get; set; }
+
+        public List<GeoCoordinateExtended> ToCoords()
+            => TrackPoints.Select(trkpt => trkpt.ToCoord()).ToList();
     }
 
     public class TCXTrackPoint : XmlBase
     {
         [XmlElement("")]
-        public String Time { get; set; }
+        public String Time { get; set; } = String.Empty;
 
         [XmlElement("Position")]
-        public TCXPosition Positon { get; set; }
+        public TCXPosition Positon { get; set; } = new TCXPosition();
 
         [XmlElement("AltitudeMeters")]
-        public Double AltitudeMeters { get; set; }
+        public Double AltitudeMeters { get; set; } = 0D;
 
         [XmlElement("DistanceMeters")]
-        public Double DistanceMeters { get; set; }
+        public Double DistanceMeters { get; set; } = 0D;
 
         [XmlElement("HeartRateBpm")]
-        public TCXHeartRateInBeatsPerMinute HeartRateBpm { get; set; }
+        public TCXHeartRateInBeatsPerMinute HeartRateBpm { get; set; } = new TCXHeartRateInBeatsPerMinute();
 
         [XmlElement("Cadence")]
-        public Byte Cadence { get; set; }
+        public Byte Cadence { get; set; } = 0;
 
         [XmlElement("SensorState")]
-        public String SensorState { get; set; }
+        public String SensorState { get; set; } = String.Empty;
 
         [XmlElement("Extensions")]
-        public TCXExtensions Extensions { get; set; }
+        public TCXExtensions Extensions { get; set; } = new TCXExtensions();
+
+        public GeoCoordinateExtended ToCoord()
+            => new GeoCoordinateExtended(this.Positon.LatitudeDegrees, this.Positon.LongitudeDegrees, this.AltitudeMeters);
     }
 
     public class TCXPosition : XmlBase
@@ -213,6 +224,17 @@ namespace TNDStudios.Spatial.Documents
 
         [XmlElement("Extensions")]
         public TCXExtensions Extensions { get; set; }
+
+        /// <summary>
+        /// Convert the list of points to a list of common coordinates
+        /// </summary>
+        /// <returns></returns>
+        public List<GeoCoordinateExtended> ToCoords()
+        {
+            List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
+            Laps.ForEach(lap => merged.AddRange(lap.Track.ToCoords()));
+            return merged;
+        }
     }
 
     public class TCXBuild : XmlBase
@@ -225,7 +247,7 @@ namespace TNDStudios.Spatial.Documents
     {
         [XmlElement("VersionMajor")]
         public Byte VersionMajor { get; set; }
-        
+
         [XmlElement("VersionMinor")]
         public Byte VersionMinor { get; set; }
 
