@@ -155,7 +155,10 @@ namespace TNDStudios.Spatial.Documents
         public List<TCXTrackPoint> TrackPoints { get; set; }
 
         public List<GeoCoordinateExtended> ToCoords()
-            => TrackPoints.Select(trkpt => trkpt.ToCoord()).ToList();
+            => TrackPoints
+                .Select(trkpt => trkpt.ToCoord())
+                .Where(trkpt => trkpt != null)
+                .ToList();
     }
 
     public class TCXTrackPoint : XmlBase
@@ -164,7 +167,7 @@ namespace TNDStudios.Spatial.Documents
         public String Time { get; set; } = String.Empty;
 
         [XmlElement("Position")]
-        public TCXPosition Positon { get; set; } = new TCXPosition();
+        public TCXPosition Position { get; set; }
 
         [XmlElement("AltitudeMeters")]
         public Double AltitudeMeters { get; set; } = 0D;
@@ -185,7 +188,7 @@ namespace TNDStudios.Spatial.Documents
         public TCXExtensions Extensions { get; set; } = new TCXExtensions();
 
         public GeoCoordinateExtended ToCoord()
-            => new GeoCoordinateExtended(this.Positon.LatitudeDegrees, this.Positon.LongitudeDegrees, this.AltitudeMeters);
+            => (this.Position == null) ? null : new GeoCoordinateExtended(this.Position.LatitudeDegrees, this.Position.LongitudeDegrees, this.AltitudeMeters);
     }
 
     public class TCXPosition : XmlBase
