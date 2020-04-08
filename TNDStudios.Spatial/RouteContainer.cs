@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TNDStudios.Spatial
+﻿namespace TNDStudios.Spatial
 {
     public class RouteContainer
     {

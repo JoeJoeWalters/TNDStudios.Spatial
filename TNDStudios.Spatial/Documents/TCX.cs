@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 using TNDStudios.Spatial.Common;
-using TNDStudios.Spatial.Helpers;
 
 /// <summary>
 /// https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd

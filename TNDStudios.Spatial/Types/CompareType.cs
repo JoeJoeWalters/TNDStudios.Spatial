@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TNDStudios.Spatial.Types
+﻿namespace TNDStudios.Spatial.Types
 {
     public enum CompareType
     {

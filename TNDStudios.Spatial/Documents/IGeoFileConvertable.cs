@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TNDStudios.Spatial.Documents
+﻿namespace TNDStudios.Spatial.Documents
 {
     public interface IGeoFileConvertable
     {

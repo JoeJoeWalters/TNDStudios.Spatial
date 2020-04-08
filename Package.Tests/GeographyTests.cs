@@ -1,10 +1,9 @@
+using System;
+using System.Collections.Generic;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
 using TNDStudios.Spatial.Types;
-using System;
-using System.Collections.Generic;
 using Xunit;
-using Newtonsoft.Json;
 
 namespace TNDStudios.Spatial.Tests
 {
