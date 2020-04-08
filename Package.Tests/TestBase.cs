@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
+using TNDStudios.Spatial.Helpers;
 
 namespace TNDStudios.Spatial.Tests
 {
@@ -58,13 +60,8 @@ namespace TNDStudios.Spatial.Tests
                 if (data == null)
                     throw new Exception("No data");
 
-                // Load the XML in to the object required 
-                // If tagged mappings exist they should be mapped
-                StringReader strReader = new StringReader(data);
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                XmlTextReader xmlReader = new XmlTextReader(strReader);
-
-                return (T)serializer.Deserialize(xmlReader);
+                // Use the base deserialise method to make sure any cleansing is done first
+                return XmlHelper.DeserialiseXML<T>(data);
             }
             catch(Exception ex)
             {

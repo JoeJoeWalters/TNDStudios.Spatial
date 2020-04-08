@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using TNDStudios.Spatial.Common;
 using TNDStudios.Spatial.Helpers;
@@ -13,22 +14,14 @@ namespace TNDStudios.Spatial.Documents
 {
     /// <summary>
     /// Implementation of https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
+    /// Folders, workouts, courses element(s) not mapped because we only care about the core activity data we can extract right now
     /// </summary>
     [Serializable]
     [XmlRoot("TrainingCenterDatabase", Namespace = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")]
     public class TCXFile : XmlBase, IGeoFileConvertable
     {
-        [XmlElement("Folders")]
-        public TCXFolders Folders { get; set; }
-
         [XmlElement("Activities")]
         public TCXActivities Activities { get; set; }
-
-        [XmlElement("Workouts")]
-        public TCXWorkouts Workouts { get; set; }
-
-        [XmlElement("Courses")]
-        public TCXCourses Courses { get; set; }
 
         [XmlElement("Author")]
         public TCXAbstractSource Author { get; set; }
@@ -42,16 +35,35 @@ namespace TNDStudios.Spatial.Documents
         }
     }
 
+    public class TCXAbstractSource : XmlBase
+    {
+        [XmlElement("Name")]
+        public String Name { get; set; }
+
+        [XmlElement("UnitId")]
+        public String UnitID { get; set; }
+
+        [XmlElement("ProductID")]
+        public String ProductID { get; set; }
+
+        [XmlElement("Version")]
+        public TCXVersion Version { get; set; }
+
+        [XmlElement("Build")]
+        public TCXBuild Build { get; set; }
+
+        [XmlElement("PartNumber")]
+        public String PartNumber { get; set; }
+
+        [XmlElement("LangID")]
+        public String LangID { get; set; }
+    }
+
     /// <summary>
     /// Extensions which is defined purposfully empty so XmlBase will
     /// pick up unmapped members
     /// </summary>
     public class TCXExtensions : XmlBase { }
-
-    public class TCXFolders : XmlBase
-    {
-
-    }
 
     public class TCXActivities : XmlBase
     {
@@ -134,18 +146,94 @@ namespace TNDStudios.Spatial.Documents
         public TCXExtensions Extensions { get; set; }
     }
 
+    public class TCXTrack : XmlBase
+    {
+        [XmlElement("Trackpoint")]
+        public List<TCXTrackPoint> TrackPoints { get; set; }
+    }
+
+    public class TCXTrackPoint : XmlBase
+    {
+        [XmlElement("")]
+        public String Time { get; set; }
+
+        [XmlElement("Position")]
+        public TCXPosition Positon { get; set; }
+
+        [XmlElement("AltitudeMeters")]
+        public Double AltitudeMeters { get; set; }
+
+        [XmlElement("DistanceMeters")]
+        public Double DistanceMeters { get; set; }
+
+        [XmlElement("HeartRateBpm")]
+        public TCXHeartRateInBeatsPerMinute HeartRateBpm { get; set; }
+
+        [XmlElement("Cadence")]
+        public Byte Cadence { get; set; }
+
+        [XmlElement("SensorState")]
+        public String SensorState { get; set; }
+
+        [XmlElement("Extensions")]
+        public TCXExtensions Extensions { get; set; }
+    }
+
+    public class TCXPosition : XmlBase
+    {
+        [XmlElement("LatitudeDegrees")]
+        public Double LatitudeDegrees { get; set; }
+
+        [XmlElement("LongitudeDegrees")]
+        public Double LongitudeDegrees { get; set; }
+    }
+
     public class TCXHeartRateInBeatsPerMinute : XmlBase
     {
         [XmlElement("Value")]
         public Byte Value { get; set; }
     }
 
+    /// <summary>
+    /// Activity type with the Training element dropped as we only care about getting to the movement data
+    /// </summary>
     public class TCXActivity : XmlBase
     {
-        [XmlAttribute("Sport")]
-        public String Sport { get; set; }
-
         [XmlElement("Id")]
         public String Id { get; set; }
+
+        [XmlElement("Lap")]
+        public List<TCXActivityLap> Laps { get; set; }
+
+        [XmlElement("Notes")]
+        public String Notes { get; set; }
+
+        [XmlElement("Creator")]
+        public TCXAbstractSource Creator { get; set; }
+
+        [XmlElement("Extensions")]
+        public TCXExtensions Extensions { get; set; }
+    }
+
+    public class TCXBuild : XmlBase
+    {
+        [XmlElement("Version")]
+        public TCXVersion Version { get; set; }
+    }
+
+    public class TCXVersion : XmlBase
+    {
+        [XmlElement("VersionMajor")]
+        public Byte VersionMajor { get; set; }
+        
+        [XmlElement("VersionMinor")]
+        public Byte VersionMinor { get; set; }
+
+        [XmlElement("BuildMajor")]
+        public Byte BuildMajor { get; set; }
+
+        [XmlElement("BuildMinor")]
+        public Byte BuildMinor { get; set; }
+
     }
 }
