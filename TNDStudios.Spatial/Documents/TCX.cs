@@ -18,6 +18,9 @@ namespace TNDStudios.Spatial.Documents
     [XmlRoot("TrainingCenterDatabase", Namespace = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")]
     public class TCXFile : XmlBase, IGeoFileConvertable
     {
+        // ISO 8601 formatter instead of using roundtrip kind parsing as needed for read and write (get and set)
+        public static String DateTimeFormat = "yyyy-MM-ddTHH:mm:sszzz";
+
         [XmlElement("Activities")]
         public TCXActivities Activities { get; set; }
 
@@ -163,8 +166,17 @@ namespace TNDStudios.Spatial.Documents
 
     public class TCXTrackPoint : XmlBase
     {
-        [XmlElement("")]
-        public String Time { get; set; } = String.Empty;
+        /// <summary>
+        /// Creation/modification timestamp for element. Date and time in are in Univeral Coordinated Time (UTC), not local time! Conforms to ISO 8601 specification for date/time representation. Fractional seconds are allowed for millisecond timing in tracklogs.
+        /// </summary>
+        [XmlIgnore]
+        public DateTime CreatedDateTime = DateTime.MinValue;
+        [XmlElement("Time")]
+        public String Time
+        {
+            get { return CreatedDateTime.ToString(TCXFile.DateTimeFormat); }
+            set { this.CreatedDateTime = DateTime.Parse(value); }
+        }
 
         [XmlElement("Position")]
         public TCXPosition Position { get; set; }
@@ -188,7 +200,7 @@ namespace TNDStudios.Spatial.Documents
         public TCXExtensions Extensions { get; set; } = new TCXExtensions();
 
         public GeoCoordinateExtended ToCoord()
-            => (this.Position == null) ? null : new GeoCoordinateExtended(this.Position.LatitudeDegrees, this.Position.LongitudeDegrees, this.AltitudeMeters);
+            => (this.Position == null) ? null : new GeoCoordinateExtended(this.Position.LatitudeDegrees, this.Position.LongitudeDegrees, this.AltitudeMeters, this.CreatedDateTime);
     }
 
     public class TCXPosition : XmlBase

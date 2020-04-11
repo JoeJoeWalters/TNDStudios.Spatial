@@ -8,6 +8,10 @@ namespace TNDStudios.Spatial.Helpers
 {
     public static class XmlHelper
     {
+        /// <summary>
+        /// Pattern to remove tags that cause a problem when tranforming xml
+        /// where polymorphic types in xml are used and no mapping can be made
+        /// </summary>
         public static String CleanTags = @"xsi:type=\""[a-zA-Z0-9:;\.\s\(\)\-_\""\,]*";
 
         /// <summary>

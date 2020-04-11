@@ -1,6 +1,7 @@
 ﻿using System;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
+using TNDStudios.Spatial.Types;
 using Xunit;
 
 namespace TNDStudios.Spatial.Tests
@@ -18,7 +19,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void File_Format_Compare()
+        public void File_Format_Compare_Distance()
         {
             // ARRANGE
             GeoFile tcxConversion = tcxTrackFile.ToGeoFile();
@@ -30,6 +31,23 @@ namespace TNDStudios.Spatial.Tests
 
             // ASSERT
             Assert.Equal(tcxDistance, gpxDIstance);
+        }
+
+        [Fact]
+        public void File_Format_Compare_Speed()
+        {
+            // ARRANGE
+            GeoFile tcxConversion = tcxTrackFile.ToGeoFile();
+            GeoFile gpxConversion = gpxTrackFile.ToGeoFile();
+            TimeSpan tcxSpeed;
+            TimeSpan gpxSpeed;
+
+            // ACT
+            tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+            gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+
+            // ASSERT
+            Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
         }
     }
 }
