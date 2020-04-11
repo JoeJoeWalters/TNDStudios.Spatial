@@ -34,7 +34,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void File_Format_Compare_Speed()
+        public void File_Format_Compare_Actual_Time()
         {
             // ARRANGE
             GeoFile tcxConversion = tcxTrackFile.ToGeoFile();
@@ -45,6 +45,23 @@ namespace TNDStudios.Spatial.Tests
             // ACT
             tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
             gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+
+            // ASSERT
+            Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
+        }
+
+        [Fact]
+        public void File_Format_Compare_Moving_Time()
+        {
+            // ARRANGE
+            GeoFile tcxConversion = tcxTrackFile.ToGeoFile();
+            GeoFile gpxConversion = gpxTrackFile.ToGeoFile();
+            TimeSpan tcxSpeed;
+            TimeSpan gpxSpeed;
+
+            // ACT
+            tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
+            gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
 
             // ASSERT
             Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
