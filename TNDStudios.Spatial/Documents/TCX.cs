@@ -246,7 +246,13 @@ namespace TNDStudios.Spatial.Documents
         {
             List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
             Laps.ForEach(lap => merged.AddRange(lap.Track.ToCoords()));
-            return merged.InfillPositions(); // Infill the positions that might still exist in boundaries between tracks before returning
+
+            // Infilling is done for each track but there could be bad coordinates left over at the start or end of tracks that
+            // might still need dealing with so check first rather than always doing it.
+            if (merged.Where(pt => pt.BadCoordinate).Count() > 0)
+                return merged.InfillPositions(); // Infill the positions that might still exist in boundaries between tracks before returning
+            else
+                return merged; // No need for infilling as no bad coordinates
         }
     }
 
