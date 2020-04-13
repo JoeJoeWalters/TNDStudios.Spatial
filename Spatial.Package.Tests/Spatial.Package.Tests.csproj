@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TNDStudios.Spatial\Package.csproj" />
+    <ProjectReference Include="..\Spatial.Package\Spatial.Package.csproj" />
   </ItemGroup>
 
 </Project>
