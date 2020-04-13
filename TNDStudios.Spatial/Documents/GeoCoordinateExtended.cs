@@ -12,6 +12,12 @@ namespace TNDStudios.Spatial.Documents
         public DateTime Time { get; set; } = DateTime.MinValue;
 
         /// <summary>
+        /// If a coordinate cannot represent the longitude and latitude e.g. in TCX files where the signal is paused no position is given,
+        /// so used as a trigger to infill coordinates from previous entries on conversion.
+        /// </summary>
+        public Boolean BadCoordinate { get; set; } = false;
+
+        /// <summary>
         /// Default constructor for Newtonsoft to perform serialisation etc.
         /// </summary>
         public GeoCoordinateExtended()

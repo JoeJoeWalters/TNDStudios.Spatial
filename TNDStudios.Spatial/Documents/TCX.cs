@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using TNDStudios.Spatial.Common;
+using TNDStudios.Spatial.Helpers;
 
 /// <summary>
 /// https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
@@ -160,8 +161,7 @@ namespace TNDStudios.Spatial.Documents
         public List<GeoCoordinateExtended> ToCoords()
             => TrackPoints
                 .Select(trkpt => trkpt.ToCoord())
-                .Where(trkpt => trkpt != null)
-                .ToList();
+                .ToList().InfillPositions();
     }
 
     public class TCXTrackPoint : XmlBase
@@ -200,7 +200,7 @@ namespace TNDStudios.Spatial.Documents
         public TCXExtensions Extensions { get; set; } = new TCXExtensions();
 
         public GeoCoordinateExtended ToCoord()
-            => (this.Position == null) ? null : new GeoCoordinateExtended(this.Position.LatitudeDegrees, this.Position.LongitudeDegrees, this.AltitudeMeters, this.CreatedDateTime);
+            => (this.Position == null) ? new GeoCoordinateExtended(0, 0, this.AltitudeMeters, this.CreatedDateTime) { BadCoordinate = true } : new GeoCoordinateExtended(this.Position.LatitudeDegrees, this.Position.LongitudeDegrees, this.AltitudeMeters, this.CreatedDateTime);
     }
 
     public class TCXPosition : XmlBase
@@ -246,7 +246,7 @@ namespace TNDStudios.Spatial.Documents
         {
             List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
             Laps.ForEach(lap => merged.AddRange(lap.Track.ToCoords()));
-            return merged;
+            return merged.InfillPositions(); // Infill the positions that might still exist in boundaries between tracks before returning
         }
     }
 

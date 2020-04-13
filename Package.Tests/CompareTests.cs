@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
 using TNDStudios.Spatial.Types;
@@ -62,6 +64,8 @@ namespace TNDStudios.Spatial.Tests
             // ACT
             tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
             gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
+
+            //List<GeoCoordinateExtended> stillPoints = gpxConversion.Routes[0].Points.Where(pt => pt.Speed == 0).ToList();
 
             // ASSERT
             Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));

@@ -12,6 +12,30 @@ namespace TNDStudios.Spatial.Helpers
         public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
         public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
 
+        public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
+        {
+            GeoCoordinateExtended lastValidPosition = null;
+            points.ForEach(pt => 
+            {
+                // Not a bad coordinate?
+                if (!pt.BadCoordinate) 
+                {
+                    lastValidPosition = pt; // Assign this as the last known good position 
+                }
+                else if (pt.BadCoordinate && lastValidPosition != null) 
+                { 
+                    // Infill the position from the last known good
+                    pt.Latitude = lastValidPosition.Latitude; 
+                    pt.Longitude = lastValidPosition.Longitude;
+                    pt.Altitude = lastValidPosition.Altitude;
+                    pt.BadCoordinate = false;
+                    lastValidPosition = pt; // Reassign this as the last known good
+                }
+            });
+
+            return points;
+        }
+
         public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)
         {
             // Loop the coords from start to finish missing the first 
