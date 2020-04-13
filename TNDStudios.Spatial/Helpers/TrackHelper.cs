@@ -122,21 +122,6 @@ namespace TNDStudios.Spatial.Helpers
         public static List<GeoCoordinateExtended> Round(this List<GeoCoordinateExtended> points, Double meters)
             => points.Clone().Select(coord => coord.Round(meters)).ToList();
 
-        public static GeoCoordinateExtended Round(this GeoCoordinateExtended coord, Double meters)
-        {
-            // Coordinate offsets in radians
-            Double latitudeMeters = coord.Latitude * LatitudeDistance;
-            Double longitudeMeters = coord.Longitude * (EarthRadius * Math.Cos(coord.Latitude) / 360.0D);
-
-            Double roundedLatitude = meters * Math.Round(latitudeMeters / meters, 0);
-            Double roundedLongitude = meters * Math.Round(longitudeMeters / meters, 0);
-
-            coord.Latitude = roundedLatitude / LatitudeDistance;
-            coord.Longitude = roundedLongitude / (EarthRadius * Math.Cos(coord.Latitude) / 360.0D);
-
-            return coord;
-        }
-
         /// <summary>
         /// Compare one set of points to another to give a similarity score based on how common they are
         /// </summary>

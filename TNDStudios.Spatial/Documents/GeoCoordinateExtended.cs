@@ -1,5 +1,6 @@
 ﻿using GeoCoordinatePortable;
 using System;
+using TNDStudios.Spatial.Helpers;
 
 namespace TNDStudios.Spatial.Documents
 {
@@ -33,11 +34,34 @@ namespace TNDStudios.Spatial.Documents
         {
         }
 
+        /// <summary>
+        /// Calculate the speed from a previous point
+        /// </summary>
+        /// <param name="previous"></param>
         public void CalculateSpeed(GeoCoordinateExtended previous)
         {
             Double distance = this.GetDistanceTo(previous);
             Double seconds = ((TimeSpan)(this.Time - previous.Time)).TotalSeconds;
             this.Speed = distance / seconds;
+        }
+
+        /// <summary>
+        /// Round this coordinate to the nearest grid coordinate of X meters
+        /// </summary>
+        /// <param name="meters"></param>
+        public GeoCoordinateExtended Round(Double meters)
+        {
+            // Coordinate offsets in radians
+            Double latitudeMeters = this.Latitude * TrackHelper.LatitudeDistance;
+            Double longitudeMeters = this.Longitude * (TrackHelper.EarthRadius * Math.Cos(this.Latitude) / 360.0D);
+
+            Double roundedLatitude = meters * Math.Round(latitudeMeters / meters, 0);
+            Double roundedLongitude = meters * Math.Round(longitudeMeters / meters, 0);
+
+            this.Latitude = roundedLatitude / TrackHelper.LatitudeDistance;
+            this.Longitude = roundedLongitude / (TrackHelper.EarthRadius * Math.Cos(this.Latitude) / 360.0D);
+
+            return this;
         }
     }
 }
