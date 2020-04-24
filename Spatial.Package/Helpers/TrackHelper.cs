@@ -162,5 +162,25 @@ namespace TNDStudios.Spatial.Helpers
                     return sourceRounded.Where(source => !compareRounded.Any(compare => source == compare)).ToList();
             }
         }
+
+        /// <summary>
+        /// Split an array of points in to two pieces by a time frame relative to the start of the points
+        /// e.g. 10 minutes in or 1 hour etc.
+        /// </summary>
+        /// <param name="points">The origional set of points</param>
+        /// <param name="splitTime"></param>
+        /// <returns>An array containing two arrays of geographic points representing the two parts for the split</returns>
+        public static List<List<GeoCoordinateExtended>> Split(this List<GeoCoordinateExtended> points, TimeSpan splitTime)
+        {
+            // Calculate the actual point in time of the split by adding the timeframe to the start time of the points
+            DateTime splitDatTime = points[0].Time.Add(splitTime);
+
+            // Take the two segments
+            List<GeoCoordinateExtended> part1 = points.Where(pt => pt.Time < splitDatTime).ToList();
+            List<GeoCoordinateExtended> part2 = points.Where(pt => pt.Time >= splitDatTime).ToList();
+
+            // Return an array of the split
+            return new List<List<GeoCoordinateExtended>>() { part1, part2 };
+        }
     }
 }
