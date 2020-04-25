@@ -182,5 +182,19 @@ namespace TNDStudios.Spatial.Helpers
             // Return an array of the split
             return new List<List<GeoCoordinateExtended>>() { part1, part2 };
         }
+
+        /// <summary>
+        /// Merge two or more tracks and ALL their points together and re-order the timeline, be aware no point vs time matching will be performed 
+        /// and that you will need to apply an re-calculations again such as speed
+        /// </summary>
+        /// <param name="trackList">The array of tracks to be merged</param>
+        /// <returns>The merged track</returns>
+        public static List<GeoCoordinateExtended> Merge(this List<List<GeoCoordinateExtended>> trackList)
+        {
+            List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
+            trackList.ForEach(track => merged.AddRange(track)); // For each track, merge the points
+            merged.ForEach(point => point.Speed = 0); // Destroy the speed calculations as some points may intersect now
+            return merged.Clone().OrderBy(item => item.Time).ToList(); // Clone the points to break the byref linkage and then order by time so everything is in the right order
+        }
     }
 }
