@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
-using TNDStudios.Spatial.Types;
 using Xunit;
 
 namespace TNDStudios.Spatial.Tests
