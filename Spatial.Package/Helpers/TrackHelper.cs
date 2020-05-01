@@ -103,6 +103,19 @@ namespace TNDStudios.Spatial.Helpers
         }
 
         /// <summary>
+        /// Remove not moving points and time from the list of coordinates
+        /// </summary>
+        /// <param name="points">The list of points to be cleaned of not moving time</param>
+        /// <returns>The list of points with the not moving time removed</returns>
+        public static List<GeoCoordinateExtended> RemoveNotMoving(this List<GeoCoordinateExtended> points)
+        {
+            List<GeoCoordinateExtended> cleaned = points.Clone(); // Make a copy of the points first to break the reference
+
+            // Return the cleaned list of points
+            return cleaned; 
+        }
+
+        /// <summary>
         /// Clone an existing set of points so they can be modified breaking the reference to the origional list
         /// </summary>
         /// <param name="points">The set of points to clone</param>
