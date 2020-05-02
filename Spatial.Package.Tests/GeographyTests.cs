@@ -23,7 +23,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void Track_Segment_Calculate_Distance()
+        public void Calculate_Distance()
         {
             // ARRANGE
             List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
@@ -36,20 +36,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Calculate_Distance()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
-
-            // ACT
-            Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
-
-            // ASSERT
-            Assert.True(distance == 21.37D);
-        }
-
-        [Fact]
-        public void GPX_Track_Actual_Time()
+        public void Calculate_Actual_Time()
         {
             // ARRANGE
             List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
@@ -62,7 +49,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void GPX_Track_Moving_Time()
+        public void Calculate_Moving_Time()
         {
             // ARRANGE
             List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
