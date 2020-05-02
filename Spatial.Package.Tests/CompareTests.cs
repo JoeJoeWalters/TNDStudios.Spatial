@@ -43,8 +43,8 @@ namespace TNDStudios.Spatial.Tests
             TimeSpan gpxSpeed;
 
             // ACT
-            tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
-            gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+            tcxSpeed = tcxConversion.Routes[0].Points.TotalTime(TimeCalculationType.ActualTime);
+            gpxSpeed = gpxConversion.Routes[0].Points.TotalTime(TimeCalculationType.ActualTime);
 
             // ASSERT
             Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
@@ -60,8 +60,8 @@ namespace TNDStudios.Spatial.Tests
             TimeSpan gpxSpeed;
 
             // ACT
-            tcxSpeed = tcxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
-            gpxSpeed = gpxConversion.Routes[0].Points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
+            tcxSpeed = tcxConversion.Routes[0].Points.TotalTime(TimeCalculationType.MovingTime);
+            gpxSpeed = gpxConversion.Routes[0].Points.TotalTime(TimeCalculationType.MovingTime);
 
             //List<GeoCoordinateExtended> stillPoints = gpxConversion.Routes[0].Points.Where(pt => pt.Speed == 0).ToList();
 

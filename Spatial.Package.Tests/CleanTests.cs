@@ -23,14 +23,14 @@ namespace TNDStudios.Spatial.Tests
             List<GeoCoordinateExtended> points = trackFile.Routes[0].Points;
 
             // ACT
-            TimeSpan totalTime = points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
-            TimeSpan movingTime = points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
-            TimeSpan difference = totalTime - movingTime;
-            List<GeoCoordinateExtended> cleanedPoints = points.RemoveNotMoving();
-            TimeSpan cleanedTime = cleanedPoints.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+            TimeSpan totalTime = points.TotalTime(TimeCalculationType.ActualTime); // Work out the actual time of the track
+            TimeSpan movingTime = points.TotalTime(TimeCalculationType.MovingTime); // Work out the moving time of the track
+            TimeSpan difference = totalTime - movingTime; // Calculate the not moving time
+            List<GeoCoordinateExtended> cleanedPoints = points.RemoveNotMoving(); // Call the process to remove the not moving time and heal
+            TimeSpan cleanedTime = cleanedPoints.TotalTime(TimeCalculationType.ActualTime); // Calculate the new actual time of the track
 
             // ASSERT
-            Assert.Equal(movingTime, cleanedTime);
+            Assert.Equal(movingTime, cleanedTime); // The old moving time should be the new actual time
         }
 
     }

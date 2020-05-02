@@ -55,7 +55,7 @@ namespace TNDStudios.Spatial.Tests
             List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT]
-            TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.ActualTime);
+            TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.ActualTime);
 
             // ASSERT
             Assert.Equal(133.0, Math.Floor(calculatedSpan.TotalMinutes));
@@ -68,7 +68,7 @@ namespace TNDStudios.Spatial.Tests
             List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
             // ACT]
-            TimeSpan calculatedSpan = points.CalculateSpeeds().TotalTime(TimeCalculationType.MovingTime);
+            TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.MovingTime);
 
             // ASSERT
             Assert.Equal(124.0, Math.Floor(calculatedSpan.TotalMinutes));

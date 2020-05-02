@@ -78,6 +78,9 @@ namespace TNDStudios.Spatial.Helpers
         {
             TimeSpan result = new TimeSpan();
 
+            // Enforce speed calculation first, we can't assume someone has already done this or it might need re-calculating
+            points = points.CalculateSpeeds();
+
             switch (timeCalculationType)
             {
                 case TimeCalculationType.ActualTime:
