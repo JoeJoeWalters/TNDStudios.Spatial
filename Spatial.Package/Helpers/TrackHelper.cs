@@ -15,17 +15,17 @@ namespace TNDStudios.Spatial.Helpers
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
             GeoCoordinateExtended lastValidPosition = null;
-            points.ForEach(pt => 
+            points.ForEach(pt =>
             {
                 // Not a bad coordinate?
-                if (!pt.BadCoordinate) 
+                if (!pt.BadCoordinate)
                 {
                     lastValidPosition = pt; // Assign this as the last known good position 
                 }
-                else if (pt.BadCoordinate && lastValidPosition != null) 
-                { 
+                else if (pt.BadCoordinate && lastValidPosition != null)
+                {
                     // Infill the position from the last known good
-                    pt.Latitude = lastValidPosition.Latitude; 
+                    pt.Latitude = lastValidPosition.Latitude;
                     pt.Longitude = lastValidPosition.Longitude;
                     pt.Altitude = lastValidPosition.Altitude;
                     pt.BadCoordinate = false;
@@ -112,10 +112,40 @@ namespace TNDStudios.Spatial.Helpers
         /// <returns>The list of points with the not moving time removed</returns>
         public static List<GeoCoordinateExtended> RemoveNotMoving(this List<GeoCoordinateExtended> points)
         {
-            List<GeoCoordinateExtended> cleaned = points.Clone(); // Make a copy of the points first to break the reference
+            List<GeoCoordinateExtended> reference = points.Clone().CalculateSpeeds(); // Make a copy of the points first to break the reference and re-calculate the speeds
+            List<KeyValuePair<TimeSpan, GeoCoordinateExtended>> timeDiffArray = new List<KeyValuePair<TimeSpan, GeoCoordinateExtended>>(); // New list of points with the timedifference between them as the key
+            List<GeoCoordinateExtended> cleaned = new List<GeoCoordinateExtended>() { reference[0] }; // Create the new clean array, the first point always has no speed so always add this to the cleaned array as a starting point
+
+            // Loop all points in the track and only count those that had speed (movement) between the two points
+            var coordId = 1; // Start from the second point as the first will always have no speed (from another point) 
+            while (coordId <= reference.Count - 1)
+            {
+                if (reference[coordId].Speed != 0)
+                {
+                    TimeSpan timeDiff = reference[coordId].Time - reference[coordId - 1].Time; // Calculate the time to the previous coordinate
+                    timeDiffArray.Add(new KeyValuePair<TimeSpan, GeoCoordinateExtended>(timeDiff, reference[coordId])); // Add the coordinate that shows movement with the time difference to the last coordinate
+                }
+
+                coordId++;
+            }
+
+            // Loop the array with the none moving time stripped out and re-calculate the coordinate times based on the time differences
+            DateTime pointInTime = cleaned[0].Time; // Take the start time of the origional track to be the new start time
+            for (var refId = 0; refId < timeDiffArray.Count; refId ++)
+            {
+                GeoCoordinateExtended manipulated = timeDiffArray[refId].Value; // Create a reference to the point on the track to have the time manipluated
+
+                pointInTime += timeDiffArray[refId].Key; // Add the time difference to the rolling point in time
+                manipulated.Time = pointInTime; // Set the new time to the point so the new point is still the same difference in time between the GPS pings to the last point that moved
+
+                cleaned.Add(manipulated); // Add the time manipulated point to the cleaned array
+            }
+
+            // Re-calculate the speeds on the new points
+            cleaned.CalculateSpeeds();
 
             // Return the cleaned list of points
-            return cleaned; 
+            return cleaned;
         }
 
         /// <summary>

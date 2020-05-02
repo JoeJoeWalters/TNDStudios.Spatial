@@ -21,16 +21,17 @@ namespace TNDStudios.Spatial.Tests
         {
             // ARRANGE
             List<GeoCoordinateExtended> points = trackFile.Routes[0].Points;
+            TimeSpan tolerenceAmount = new TimeSpan(0, 0, 2); // 2 second tolerence each way on result
+            TimeSpan movingTime = points.TotalTime(TimeCalculationType.MovingTime); // Work out the moving time of the track
+            TimeSpan tolerenceLower = movingTime.Subtract(tolerenceAmount); // lower tolerence bound
+            TimeSpan tolerenceUpper = movingTime.Add(tolerenceAmount); // upper tolerence bound
 
             // ACT
-            TimeSpan totalTime = points.TotalTime(TimeCalculationType.ActualTime); // Work out the actual time of the track
-            TimeSpan movingTime = points.TotalTime(TimeCalculationType.MovingTime); // Work out the moving time of the track
-            TimeSpan difference = totalTime - movingTime; // Calculate the not moving time
             List<GeoCoordinateExtended> cleanedPoints = points.RemoveNotMoving(); // Call the process to remove the not moving time and heal
             TimeSpan cleanedTime = cleanedPoints.TotalTime(TimeCalculationType.ActualTime); // Calculate the new actual time of the track
 
             // ASSERT
-            Assert.Equal(movingTime, cleanedTime); // The old moving time should be the new actual time
+            Assert.InRange(cleanedTime, tolerenceLower, tolerenceUpper); // The old moving time should be the new actual time (to within rounding tolerence of a few seconds)
         }
 
     }
