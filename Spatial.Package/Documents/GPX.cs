@@ -78,6 +78,13 @@ namespace TNDStudios.Spatial.Documents
 
             return result;
         }
+
+        /// <summary>
+        /// Convert a GeoFile to the native format
+        /// </summary>
+        /// <param name="file">The GeoFile format to convert from</param>
+        /// <returns>Success Or Failure flag</returns>
+        public Boolean FromGeoFile(GeoFile file) => throw new NotImplementedException();
     }
 
     [Serializable]
