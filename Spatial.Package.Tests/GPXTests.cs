@@ -42,6 +42,7 @@ namespace TNDStudios.Spatial.Tests
             transformedCount = gpxFile.Routes[0].RoutePoints.Count; // Count of transformed track
 
             // ASSERT
+            Assert.True(success);
             Assert.Equal(origionalCount, transformedCount);
         }
     }

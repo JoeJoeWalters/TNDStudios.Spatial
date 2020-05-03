@@ -42,6 +42,7 @@ namespace TNDStudios.Spatial.Tests
             transformedCount = tcxFile.Activities.Activity[0].Laps[0].Track.TrackPoints.Count; // Count of transformed track
 
             // ASSERT
+            Assert.True(success);
             Assert.Equal(origionalCount, transformedCount);
         }
     }
