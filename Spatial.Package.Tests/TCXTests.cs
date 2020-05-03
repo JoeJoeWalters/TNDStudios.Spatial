@@ -14,7 +14,7 @@ namespace TNDStudios.Spatial.Tests
         }
 
         [Fact]
-        public void Track_Compare_Conversion()
+        public void Track_Compare_ToGeoFile_Conversion()
         {
             // ARRANGE
             Int32 origionalCount = 0;
@@ -23,6 +23,23 @@ namespace TNDStudios.Spatial.Tests
             // ACT
             origionalCount = tcxTrackFile.Activities.Activity[0].ToCoords().Count; // Count of origional
             transformedCount = tcxTrackFile.ToGeoFile().Routes[0].Points.Count; // Do conversion and count
+
+            // ASSERT
+            Assert.Equal(origionalCount, transformedCount);
+        }
+
+        [Fact]
+        public void Track_Compare_FromGeoFile_Conversion()
+        {
+            // ARRANGE
+            Int32 transformedCount = 0;
+            GeoFile geoFile = tcxTrackFile.ToGeoFile();
+            Int32 origionalCount = geoFile.Routes[0].Points.Count;
+            TCXFile tcxFile = new TCXFile();
+
+            // ACT
+            Boolean success = tcxFile.FromGeoFile(geoFile);
+            transformedCount = tcxFile.Activities.Activity[0].Laps[0].Track.TrackPoints.Count; // Count of transformed track
 
             // ASSERT
             Assert.Equal(origionalCount, transformedCount);
