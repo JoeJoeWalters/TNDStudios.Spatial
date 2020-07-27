@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System;
 using TNDStudios.Spatial.Documents;
 using Xunit;
@@ -25,7 +26,7 @@ namespace TNDStudios.Spatial.Tests
             transformedCount = gpxTrackFile.ToGeoFile().Routes[0].Points.Count; // Do conversion and count
 
             // ASSERT
-            Assert.Equal(origionalCount, transformedCount);
+            origionalCount.Should().Be(transformedCount);
         }
 
         [Fact]
@@ -42,8 +43,8 @@ namespace TNDStudios.Spatial.Tests
             transformedCount = gpxFile.Routes[0].RoutePoints.Count; // Count of transformed track
 
             // ASSERT
-            Assert.True(success);
-            Assert.Equal(origionalCount, transformedCount);
+            success.Should().BeTrue();
+            origionalCount.Should().Be(transformedCount);
         }
     }
 }

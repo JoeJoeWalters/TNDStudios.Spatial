@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
@@ -31,7 +32,8 @@ namespace TNDStudios.Spatial.Tests
             TimeSpan cleanedTime = cleanedPoints.TotalTime(TimeCalculationType.ActualTime); // Calculate the new actual time of the track
 
             // ASSERT
-            Assert.InRange(cleanedTime, tolerenceLower, tolerenceUpper); // The old moving time should be the new actual time (to within rounding tolerence of a few seconds)
+            cleanedTime.Should().BeGreaterOrEqualTo(tolerenceLower);
+            cleanedTime.Should().BeLessOrEqualTo(tolerenceUpper);
         }
 
     }

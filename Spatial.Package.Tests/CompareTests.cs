@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
 using TNDStudios.Spatial.Types;
@@ -30,7 +31,7 @@ namespace TNDStudios.Spatial.Tests
             Double gpxDIstance = Math.Round(gpxConversion.Routes[0].Points.CalculateTotalDistance(), 0);
 
             // ASSERT
-            Assert.Equal(tcxDistance, gpxDIstance);
+            tcxDistance.Should().Be(gpxDIstance);
         }
 
         [Fact]
@@ -47,7 +48,7 @@ namespace TNDStudios.Spatial.Tests
             gpxSpeed = gpxConversion.Routes[0].Points.TotalTime(TimeCalculationType.ActualTime);
 
             // ASSERT
-            Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
+            tcxSpeed.TotalMinutes.Should().BeApproximately(gpxSpeed.TotalMinutes, 1.0);
         }
 
         [Fact]
@@ -63,10 +64,8 @@ namespace TNDStudios.Spatial.Tests
             tcxSpeed = tcxConversion.Routes[0].Points.TotalTime(TimeCalculationType.MovingTime);
             gpxSpeed = gpxConversion.Routes[0].Points.TotalTime(TimeCalculationType.MovingTime);
 
-            //List<GeoCoordinateExtended> stillPoints = gpxConversion.Routes[0].Points.Where(pt => pt.Speed == 0).ToList();
-
             // ASSERT
-            Assert.Equal(Math.Floor(tcxSpeed.TotalMinutes), Math.Floor(gpxSpeed.TotalMinutes));
+            tcxSpeed.TotalMinutes.Should().BeApproximately(gpxSpeed.TotalMinutes, 1.0);
         }
     }
 }

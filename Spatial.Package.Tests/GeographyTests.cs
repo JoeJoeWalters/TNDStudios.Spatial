@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using TNDStudios.Spatial.Documents;
@@ -32,7 +33,7 @@ namespace TNDStudios.Spatial.Tests
             Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
 
             // ASSERT
-            Assert.True(distance == 21.37D);
+            distance.Should().Be(21.37D);
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace TNDStudios.Spatial.Tests
             TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.ActualTime);
 
             // ASSERT
-            Assert.Equal(133.0, Math.Floor(calculatedSpan.TotalMinutes));
+            calculatedSpan.TotalMinutes.Should().BeApproximately(133.0, 1);
         }
 
         [Fact]
@@ -58,7 +59,7 @@ namespace TNDStudios.Spatial.Tests
             TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.MovingTime);
 
             // ASSERT
-            Assert.Equal(124.0, Math.Floor(calculatedSpan.TotalMinutes));
+            calculatedSpan.TotalMinutes.Should().BeApproximately(124.0, 1);
         }
 
         [Fact]
@@ -71,8 +72,8 @@ namespace TNDStudios.Spatial.Tests
             Int32 trackpointCount = (Int32)geoTrackFile?.Routes[0].Points.Count;
 
             // ASSERT
-            Assert.Equal(1, trackCount);
-            Assert.True(trackpointCount > 1);
+            trackCount.Should().Be(1);
+            trackpointCount.Should().BeGreaterThan(1);
         }
 
         [Fact]
@@ -84,7 +85,7 @@ namespace TNDStudios.Spatial.Tests
             Int32 coordCount = (Int32)geoTrackFile.Routes[0].Points.Count;
 
             // ASSERT
-            Assert.Equal(523, coordCount);
+            coordCount.Should().Be(523);
         }
 
         [Fact]
@@ -98,7 +99,7 @@ namespace TNDStudios.Spatial.Tests
             Double score = compare1.Compare(compare2, ActivityType.Running);
 
             // ASSERT
-            Assert.Equal(1.0D, score); // Should be a perfect match
+            score.Should().Be(1.0D); // Should be a perfect match
         }
 
         [Fact]
@@ -112,7 +113,7 @@ namespace TNDStudios.Spatial.Tests
             Double score = compare1.Compare(compare2, ActivityType.Running);
 
             // ASSERT
-            Assert.Equal(0.0D, score); // Should be a total mismatch
+            score.Should().Be(0.0D); // Should be a total mismatch
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace TNDStudios.Spatial.Tests
             Double score = compare1.Compare(compare2, ActivityType.Running);
 
             // ASSERT
-            Assert.True(score > 0.75); // Should be a partial match
+            score.Should().BeGreaterThan(0.75); // Should be a partial match
         }
 
         [Fact]
@@ -143,7 +144,7 @@ namespace TNDStudios.Spatial.Tests
             Double hypotenuse = Math.Sqrt(Math.Pow(roundingMeters, 2) + Math.Pow(roundingMeters, 2));
 
             // ASSERT
-            Assert.True(distance < hypotenuse); // Should be smaller than the hypotenuse
+            hypotenuse.Should().BeGreaterThan(distance); // Should be smaller than the hypotenuse
         }
     }
 }

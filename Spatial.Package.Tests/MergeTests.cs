@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
@@ -34,9 +35,9 @@ namespace TNDStudios.Spatial.Tests
             result = new List<List<GeoCoordinateExtended>>() { part1, part2 }.Merge();
 
             // ASSERT
-            Assert.Equal(trackPoints.Count, result.Count); // Same total as origional
-            Assert.Equal(trackPoints[0].Time, result[0].Time); // Start point is the right time
-            Assert.Equal(trackPoints[trackPoints.Count - 1].Time, result[result.Count - 1].Time); // End point is the right time
+            trackPoints.Count.Should().Be(result.Count); // Same total as origional
+            trackPoints[0].Time.Should().Be(result[0].Time); // Start point is the right time
+            trackPoints[trackPoints.Count - 1].Time.Should().Be(result[result.Count - 1].Time); // End point is the right time
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using TNDStudios.Spatial.Documents;
 using TNDStudios.Spatial.Helpers;
@@ -31,9 +32,9 @@ namespace TNDStudios.Spatial.Tests
             DateTime part2StartTime = result[1][0].Time;
 
             // ASSERT
-            Assert.True(part1EndTime < compareTime);
-            Assert.True(part1EndTime < part2StartTime);
-            Assert.True(part2StartTime > compareTime); // Seems obvious as the last two compared it anyway in a different way but ..
+            part1EndTime.Ticks.Should().BeLessThan(compareTime.Ticks);
+            part1EndTime.Ticks.Should().BeLessThan(part2StartTime.Ticks);
+            part2StartTime.Ticks.Should().BeGreaterThan(compareTime.Ticks);
         }
 
         [Fact]
@@ -51,8 +52,8 @@ namespace TNDStudios.Spatial.Tests
             Int32 part2Count = result[1].Count;
 
             // ASSERT
-            Assert.Equal(0, part1Count);
-            Assert.Equal(gpxConversion.Routes[0].Points.Count, part2Count);
+            part1Count.Should().Be(0);
+            gpxConversion.Routes[0].Points.Count.Should().Be(part2Count);
         }
 
         [Fact]
@@ -70,8 +71,8 @@ namespace TNDStudios.Spatial.Tests
             Int32 part2Count = result[1].Count;
 
             // ASSERT
-            Assert.Equal(gpxConversion.Routes[0].Points.Count, part1Count);
-            Assert.Equal(0, part2Count);
+            gpxConversion.Routes[0].Points.Count.Should().Be(part1Count);
+            part2Count.Should().Be(0);
         }
     }
 }
