@@ -84,7 +84,21 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         /// <param name="file">The GeoFile format to convert from</param>
         /// <returns>Success Or Failure flag</returns>
-        public Boolean FromGeoFile(GeoFile file) => throw new NotImplementedException();
+        public Boolean FromGeoFile(GeoFile file)
+        {
+            this.Routes = file.Routes
+                .Select(rt => 
+                    new GPXRoute() 
+                    { 
+                        RoutePoints = rt.Points
+                            .Select(pt => 
+                                GPXWaypoint.FromCoord(pt)
+                            ).ToList()
+                    })
+                .ToList();
+
+            return true;
+        }
     }
 
     [Serializable]
@@ -301,6 +315,13 @@ namespace TNDStudios.Spatial.Documents
                 (Double)this.Elevation,
                 this.CreatedDateTime
                 );
+        }
+
+        public static GPXWaypoint FromCoord(GeoCoordinateExtended coord)
+        {
+            return new GPXWaypoint() 
+                { 
+                };
         }
     }
 
