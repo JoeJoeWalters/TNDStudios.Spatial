@@ -64,7 +64,7 @@ namespace TNDStudios.Spatial.Documents
                                 AverageHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
                                 Cadence = 0,
                                 Calories = 0,
-                                DistanceMeters = 0,
+                                DistanceMeters = rt.Points.CalculateTotalDistance(),
                                 Extensions = new TCXExtensions() { },
                                 Intensity = String.Empty,
                                 MaximumHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
@@ -78,8 +78,8 @@ namespace TNDStudios.Spatial.Documents
                                     TrackPoints = rt.Points.Select(pt =>
                                         new TCXTrackPoint()
                                         {
-                                             AltitudeMeters = pt.Altitude,
-                                            Cadence = (byte)(int)pt.Speed,
+                                            AltitudeMeters = pt.Altitude,
+                                            Cadence = 0, // SPM for running, revolutions for cycling (apparantly)
                                             CreatedDateTime = pt.Time,
                                             DistanceMeters = 0,
                                             Extensions = new TCXExtensions(){ },
@@ -90,7 +90,7 @@ namespace TNDStudios.Spatial.Documents
                                                 LongitudeDegrees = pt.Longitude
                                             },
                                             SensorState = String.Empty,
-                                            Time = String.Empty //pt.Time
+                                            Time = ((pt.Time == null) ? DateTime.MinValue : pt.Time).ToString(TCXFile.DateTimeFormat)
                                         }
                                         ).ToList()
                                 }

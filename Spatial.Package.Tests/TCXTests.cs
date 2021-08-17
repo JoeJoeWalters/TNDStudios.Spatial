@@ -2,6 +2,7 @@ using FluentAssertions;
 using System;
 using TNDStudios.Spatial.Documents;
 using Xunit;
+using TNDStudios.Spatial.Helpers;
 
 namespace TNDStudios.Spatial.Tests
 {
@@ -40,10 +41,14 @@ namespace TNDStudios.Spatial.Tests
 
             // ACT
             Boolean success = tcxFile.FromGeoFile(geoFile);
+            Double totalDistance = geoFile.Routes[0].Points.CalculateTotalDistance();
             transformedCount = tcxFile.Activities.Activity[0].Laps[0].Track.TrackPoints.Count; // Count of transformed track
 
             // ASSERT
             success.Should().BeTrue();
+            tcxFile.Activities.Activity.Should().NotBeEmpty();
+            tcxFile.Activities.Activity[0].Laps.Should().NotBeEmpty();
+            tcxFile.Activities.Activity[0].Laps[0].DistanceMeters.Should().Be(totalDistance);
             origionalCount.Should().Be(transformedCount);
         }
     }
