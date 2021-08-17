@@ -44,6 +44,8 @@ namespace TNDStudios.Spatial.Tests
 
             // ASSERT
             success.Should().BeTrue();
+            gpxFile.Routes.Should().NotBeEmpty();
+            gpxFile.Routes[0].RoutePoints.Should().NotBeEmpty();
             origionalCount.Should().Be(transformedCount);
         }
     }
