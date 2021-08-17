@@ -46,6 +46,57 @@ namespace TNDStudios.Spatial.Documents
         /// </summary>
         /// <param name="file">The GeoFile format to convert from</param>
         /// <returns>Success Or Failure flag</returns>
-        public Boolean FromGeoFile(GeoFile file) => throw new NotImplementedException();
+        public Boolean FromGeoFile(GeoFile file)
+        {
+            this.Activities =
+                new TCXActivities()
+                {
+                    Activity = file.Routes.Select(rt =>
+                    new TCXActivity()
+                    {
+                        Creator = new TCXAbstractSource()
+                        {
+                        },
+                        Laps = new List<TCXActivityLap>()
+                        {
+                            new TCXActivityLap()
+                            {
+                                AverageHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
+                                Cadence = 0,
+                                Calories = 0,
+                                DistanceMeters = 0,
+                                Extensions = new TCXExtensions() { },
+                                Intensity = String.Empty,
+                                MaximumHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
+                                MaximumSpeed = 0,
+                                Notes = String.Empty,
+                                StartTime = String.Empty,
+                                TotalTimeSeconds = 0,
+                                TriggerMethod = String.Empty,
+                                Track = new TCXTrack()
+                                {
+                                    TrackPoints = new List<TCXTrackPoint>(){ }
+                                }
+                            }
+                        }
+                    }).ToList()
+
+                };
+            /*
+            file.Routes
+            .Select(rt =>
+                new TCXActivities()
+                {
+
+                    RoutePoints = rt.Points
+                        .Where(pt => !pt.BadCoordinate && !pt.IsUnknown)
+                        .Select(pt =>
+                            GPXWaypoint.FromCoord(pt)
+                        ).ToList()
+                })
+            .ToList();
+            */
+            return true;
+        }
     }
 }
