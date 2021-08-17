@@ -75,7 +75,24 @@ namespace TNDStudios.Spatial.Documents
                                 TriggerMethod = String.Empty,
                                 Track = new TCXTrack()
                                 {
-                                    TrackPoints = new List<TCXTrackPoint>(){ }
+                                    TrackPoints = rt.Points.Select(pt =>
+                                        new TCXTrackPoint()
+                                        {
+                                             AltitudeMeters = pt.Altitude,
+                                            Cadence = (byte)(int)pt.Speed,
+                                            CreatedDateTime = pt.Time,
+                                            DistanceMeters = 0,
+                                            Extensions = new TCXExtensions(){ },
+                                            HeartRateBpm = new TCXHeartRateInBeatsPerMinute(){ },
+                                            Position = new TCXPosition()
+                                            {
+                                                LatitudeDegrees = pt.Latitude,
+                                                LongitudeDegrees = pt.Longitude
+                                            },
+                                            SensorState = String.Empty,
+                                            Time = String.Empty //pt.Time
+                                        }
+                                        ).ToList()
                                 }
                             }
                         }
