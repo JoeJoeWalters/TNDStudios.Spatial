@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Spatial.Common;
+using System;
 using System.Xml.Serialization;
-using Spatial.Common;
 
 namespace Spatial.Documents
 {

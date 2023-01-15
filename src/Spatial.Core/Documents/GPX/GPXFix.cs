@@ -1,5 +1,5 @@
-﻿using System;
-using Spatial.Common;
+﻿using Spatial.Common;
+using System;
 
 namespace Spatial.Documents
 {

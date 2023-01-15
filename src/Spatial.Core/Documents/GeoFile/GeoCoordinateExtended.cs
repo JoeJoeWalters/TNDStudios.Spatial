@@ -1,6 +1,6 @@
 ﻿using GeoCoordinatePortable;
-using System;
 using Spatial.Helpers;
+using System;
 
 namespace Spatial.Documents
 {

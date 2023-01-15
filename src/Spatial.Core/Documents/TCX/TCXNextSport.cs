@@ -1,5 +1,5 @@
-﻿using System.Xml.Serialization;
-using Spatial.Common;
+﻿using Spatial.Common;
+using System.Xml.Serialization;
 
 namespace Spatial.Documents
 {
