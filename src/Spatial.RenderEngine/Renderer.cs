@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using SkiaSharp;
 
 namespace Spatial.RenderEngine
@@ -28,8 +29,16 @@ namespace Spatial.RenderEngine
                     paint.IsAntialias = true;
                     paint.StrokeWidth = 15;
                     paint.Style = SKPaintStyle.Stroke;
-                    canvas.DrawCircle(50, 50, 30, paint); //arguments are x position, y position, radius, and paint
+                    canvas.DrawLine(new SKPoint(0, 0), new SKPoint(30, 30), paint);
+                    //canvas.DrawCircle(50, 50, 30, paint); //arguments are x position, y position, radius, and paint
                 }
+
+                using (SKImage image = surface.Snapshot())
+                using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
+                using (MemoryStream mStream = new MemoryStream(data.ToArray()))
+                {
+                }
+
             }
         }
     }
