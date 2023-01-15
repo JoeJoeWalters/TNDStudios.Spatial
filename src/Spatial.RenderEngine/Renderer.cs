@@ -29,7 +29,9 @@ namespace Spatial.RenderEngine
                     paint.IsAntialias = true;
                     paint.StrokeWidth = 15;
                     paint.Style = SKPaintStyle.Stroke;
-                    canvas.DrawLine(new SKPoint(0, 0), new SKPoint(30, 30), paint);
+                    SKPoint[] points = new SKPoint[] { };
+                    canvas.DrawPoints(SKPointMode.Lines, points, paint);
+                    //canvas.DrawLine(new SKPoint(0, 0), new SKPoint(30, 30), paint);
                     //canvas.DrawCircle(50, 50, 30, paint); //arguments are x position, y position, radius, and paint
                 }
 
