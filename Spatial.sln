@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.Package", "Spatial.Package\Spatial.Package.csproj", "{47ADB04D-9E00-44FC-B8EA-763FC80EDE5A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.Package.Tests", "Spatial.Package.Tests\Spatial.Package.Tests.csproj", "{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strava.Package", "Strava.Package\Strava.Package.csproj", "{E86D2CCB-63C3-40A6-A469-9358EC69B03B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strava.Package.Tests", "Strava.Package.Tests\Strava.Package.Tests.csproj", "{C75F9011-8593-4A00-8BDC-A1D01A794684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +21,6 @@ Global
 		{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E86D2CCB-63C3-40A6-A469-9358EC69B03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E86D2CCB-63C3-40A6-A469-9358EC69B03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E86D2CCB-63C3-40A6-A469-9358EC69B03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E86D2CCB-63C3-40A6-A469-9358EC69B03B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C75F9011-8593-4A00-8BDC-A1D01A794684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C75F9011-8593-4A00-8BDC-A1D01A794684}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C75F9011-8593-4A00-8BDC-A1D01A794684}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C75F9011-8593-4A00-8BDC-A1D01A794684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

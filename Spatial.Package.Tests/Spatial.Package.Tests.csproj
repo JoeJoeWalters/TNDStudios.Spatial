@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -9,14 +9,6 @@
 
     <RootNamespace>TNDStudios.Spatial.Tests</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="GPXFiles\Compare1.gpx" />
-    <None Remove="GPXFiles\Compare2.gpx" />
-    <None Remove="GPXFiles\GPXRouteOnly.gpx" />
-    <None Remove="GPXFiles\HalfMarathon.gpx" />
-    <None Remove="TCXFiles\HalfMarathon.tcx" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
