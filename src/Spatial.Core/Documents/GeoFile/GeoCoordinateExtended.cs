@@ -1,4 +1,4 @@
-﻿using GeoCoordinatePortable;
+﻿using Spatial.Core.Common;
 using Spatial.Helpers;
 using System;
 
