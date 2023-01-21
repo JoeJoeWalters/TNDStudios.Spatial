@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using SkiaSharp;
+using Spatial.Common;
+using Spatial.Documents;
 
 namespace Spatial.RenderEngine
 {
@@ -12,9 +14,9 @@ namespace Spatial.RenderEngine
         }
 
         // https://washamdev.com/skiasharp-getting-started-and-simple-tutorial/
-        public void Generate()
+        public void Generate(int width, int height, GeoCoordinate topLeft, GeoCoordinate bottomRight, GeoFile file)
         {
-            SKImageInfo imageInfo = new SKImageInfo(300, 250);
+            SKImageInfo imageInfo = new SKImageInfo(width, height);
             using (SKSurface surface = SKSurface.Create(imageInfo))
             {
                 SKCanvas canvas = surface.Canvas;

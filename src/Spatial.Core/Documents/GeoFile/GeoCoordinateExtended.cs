@@ -1,4 +1,4 @@
-﻿using Spatial.Core.Common;
+﻿using Spatial.Common;
 using Spatial.Helpers;
 using System;
 

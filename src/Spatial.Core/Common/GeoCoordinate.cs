@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Spatial.Core.Common
+namespace Spatial.Common
 {
     /// <summary>
     /// Represents a geographical location that is determined by latitude and longitude

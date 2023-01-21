@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Spatial.Core.Common;
+using Spatial.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
