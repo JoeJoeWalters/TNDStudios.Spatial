@@ -24,12 +24,11 @@ internal class Program
             {
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-                /*
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Identity Provider Server API",
-                    Description = "An example Identity Provider Server",
+                    Title = "Spatial Render UI",
+                    Description = "Spatial Render UI",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
@@ -44,7 +43,11 @@ internal class Program
                 });
 
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));*/
+                string xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+                if (File.Exists(xmlFilePath))
+                {
+                    options.IncludeXmlComments(xmlFilePath);
+                }
             });
 
         builder.Services.AddMvc();
