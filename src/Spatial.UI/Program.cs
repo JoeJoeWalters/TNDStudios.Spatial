@@ -52,8 +52,8 @@ internal class Program
 
         builder.Services.AddMvc();
         builder.Services
-            .AddRazorPages();
-            //.AddRazorRuntimeCompilation();
+            .AddRazorPages()
+            .AddRazorRuntimeCompilation();
 
         var app = builder.Build();
 
