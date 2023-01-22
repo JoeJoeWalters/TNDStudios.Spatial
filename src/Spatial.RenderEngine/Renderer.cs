@@ -14,7 +14,7 @@ namespace Spatial.RenderEngine
         }
 
         // https://washamdev.com/skiasharp-getting-started-and-simple-tutorial/
-        public void Generate(int width, int height, GeoCoordinate topLeft, GeoCoordinate bottomRight, GeoFile file)
+        public Stream Generate(int width, int height, GeoCoordinate topLeft, GeoCoordinate bottomRight, GeoFile file)
         {
             SKImageInfo imageInfo = new SKImageInfo(width, height);
             using (SKSurface surface = SKSurface.Create(imageInfo))
@@ -39,10 +39,7 @@ namespace Spatial.RenderEngine
 
                 using (SKImage image = surface.Snapshot())
                 using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
-                using (MemoryStream mStream = new MemoryStream(data.ToArray()))
-                {
-                }
-
+                return new MemoryStream(data.ToArray());
             }
         }
     }

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D8EC39B8-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.RenderEngine", "src\Spatial.RenderEngine\Spatial.RenderEngine.csproj", "{DB21EF0A-83C4-47DA-B4D4-877D86B793D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spatial.UI", "src\Spatial.UI\Spatial.UI.csproj", "{38A80EDB-C921-414C-BD64-66BAB3E27F71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.UI", "src\Spatial.UI\Spatial.UI.csproj", "{38A80EDB-C921-414C-BD64-66BAB3E27F71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
