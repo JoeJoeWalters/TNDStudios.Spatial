@@ -353,20 +353,19 @@ namespace Spatial.Tests
             coordinate.VerticalAccuracy.Should().Be(Double.NaN);            
         }
 
-        /*
         [Fact]
         public void GeoCoordinate_ToString_ReturnsLongitudeAndLatitude()
         {
+            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0, Double.NaN, Double.NaN);
             coordinate.ToString().Should().Be("Unknown");
 
             coordinate.Latitude = 1;
             coordinate.Longitude = Double.NaN;
-            Assert.AreEqual("1, NaN", coordinate.ToString());
+            coordinate.ToString().Should().Be("1, NaN");
 
             coordinate.Latitude = Double.NaN;
             coordinate.Longitude = 1;
-            Assert.AreEqual("NaN, 1", coordinate.ToString());
+            coordinate.ToString().Should().Be("NaN, 1");
         }
-        */
     }
 }
