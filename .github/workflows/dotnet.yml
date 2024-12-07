@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
           name: code-coverage-report-cobertura
-          path: ${{ github.workspace }}/cobertura.xml
+          path: ${{ github.workspace }}/Cobertura.xml
     - name: Upload Combined Artifact Of Cobutura Code Coverage Report
       uses: actions/upload-artifact@v4
       with:
