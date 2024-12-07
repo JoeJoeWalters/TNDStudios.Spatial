@@ -38,10 +38,8 @@ jobs:
         indicators: true
         output: both
         thresholds: '60 80'
-    - name: Make Coverage Badge
-      uses: action-badges/cobertura-coverage-xml-badges@0.3.1
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v4
       with:
-          file-name: coverage.svg
-          badge-branch: badges
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
-          coverage-file-name: coverage/**/coverage.cobertura.xml
+          name: code-coverage-report
+          path: coverage/**/coverage.cobertura.xml
