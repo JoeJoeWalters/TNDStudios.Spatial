@@ -24,7 +24,14 @@ jobs:
       run: dotnet restore
     - name: Build Project
       run: dotnet build --no-restore
-    - name: Run Tests
+    - name: Run Unit Tests
+      run: dotnet test ~/test/Spatial.Tests/bin/debug/net8.0/Spatial.Tests.dll --verbosity detailed --results-directory ./unittests
+    - name: Upload Unit Test Results
+      uses: actions/upload-artifact@v4
+      with:
+          name: unittestresults
+          path: ${{ github.workspace }}/unittests
+    - name: Run Tests For Coverage
       run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage      
     - name: Combine Coverage Reports as Cobertura # This is because one report is produced per project, and we want one result for all of them.
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
