@@ -77,3 +77,9 @@ jobs:
         indicators: true
         output: both
         thresholds: '60 80'
+    - name: Attach Test Results To Summary
+      if: always()
+      uses: actions/upload-summary@v3
+      with: 
+        name: Test Results
+        path: cobertura.xml
