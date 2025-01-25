@@ -37,7 +37,7 @@ namespace Spatial.Helpers
 
                 return (T)serializer.Deserialize(xmlReader);
             }
-            catch(Exception ex)
+            catch//(Exception ex)
             {
                 return default(T);
             }
