@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Spatial.Documents;
 using Spatial.Types;
+using System.Data;
+using System.Text.Json;
+using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Spatial.Helpers
 {
@@ -11,6 +14,7 @@ namespace Spatial.Helpers
     {
         public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
         public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
+        public static JsonSerializerOptions serialiserOpions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals}; // To handle Infinity and NaN
 
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
@@ -154,10 +158,10 @@ namespace Spatial.Helpers
         /// <param name="points">The set of points to clone</param>
         /// <returns>The new list of points cloned from the source</returns>
         public static List<GeoCoordinateExtended> Clone(this List<GeoCoordinateExtended> points)
-            => JsonConvert.DeserializeObject<List<GeoCoordinateExtended>>(JsonConvert.SerializeObject(points)); // Serialise and then deserialise the object to break the references to new objects
+            => JsonSerializer.Deserialize<List<GeoCoordinateExtended>>(JsonSerializer.Serialize<List<GeoCoordinateExtended>>(points, serialiserOpions ), serialiserOpions); // Serialise and then deserialise the object to break the references to new objects
 
         public static GeoCoordinateExtended Clone(this GeoCoordinateExtended coord)
-            => JsonConvert.DeserializeObject<GeoCoordinateExtended>(JsonConvert.SerializeObject(coord));
+            => JsonSerializer.Deserialize<GeoCoordinateExtended>(JsonSerializer.Serialize<GeoCoordinateExtended>(coord, serialiserOpions), serialiserOpions);
 
         /// <summary>
         /// Take a set of points and modify them to be rounded to the nearest X meters
@@ -242,5 +246,38 @@ namespace Spatial.Helpers
             merged.ForEach(point => point.Speed = 0); // Destroy the speed calculations as some points may intersect now
             return merged.Clone().OrderBy(item => item.Time).ToList(); // Clone the points to break the byref linkage and then order by time so everything is in the right order
         }
+
+        /// <summary>
+        /// Find the interpolated distances for a given distance in the track data
+        /// e.g all timespans for a 1 mile distance (so you can show fastest and slowest speeds over a distance)
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        /*
+        public static List<TimeSpan> ExtractedDistances(this List<GeoCoordinateExtended> points, double overMeters)
+        {
+            List<TimeSpan> distances = new List<TimeSpan>();
+        
+            // Loop each point in the track to the end of the track and include only the distances where we exceed the given requested length in meters
+            for (var coordId = 0; coordId < points.Count; coordId++)
+            {
+                var coord2Id = coordId + 1;
+                double totalDistance = 0D;
+                while (coord2Id < points.Count)
+                { 
+                    totalDistance += points[coord2Id].GetDistanceTo(points[coord2Id - 1]);
+                    if (totalDistance <= overMeters)
+                    {
+                        distances.Add(points[coord2Id].Time - points[coordId].Time);
+                        coord2Id++;
+                    }
+                    else
+                        break;
+                }
+            }
+
+            return distances;
+        }
+        */
     }
 }
