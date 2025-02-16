@@ -248,6 +248,23 @@ namespace Spatial.Helpers
         }
 
         /// <summary>
+        /// Interpolate a point between two points in a track based on a distance between the two points
+        /// </summary>
+        /// <param name="from">The starting point</param>
+        /// <param name="to">The point to travel to</param>
+        /// <param name="distance">How far to travel to the other point</param>
+        /// <returns></returns>
+        public static GeoCoordinateExtended Interpolate(GeoCoordinateExtended from, GeoCoordinateExtended to, double distance)
+        {
+            double distanceCalc = distance / from.GetDistanceTo(to);
+            double dx = to.Longitude - from.Longitude;
+            double dy = to.Latitude - from.Latitude;
+            double newLat = from.Latitude + distanceCalc * dy;
+            double newLon = from.Longitude + distanceCalc * dx;
+            return new GeoCoordinateExtended(newLat, newLon, 0); // TODO : Altitude
+        }
+
+        /// <summary>
         /// Find the interpolated distances for a given distance in the track data
         /// e.g all timespans for a 1 mile distance (so you can show fastest and slowest speeds over a distance)
         /// </summary>

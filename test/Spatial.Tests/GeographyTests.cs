@@ -5,6 +5,7 @@ using Spatial.Documents;
 using Spatial.Helpers;
 using Spatial.Types;
 using Xunit;
+using System.Transactions;
 
 namespace Spatial.Tests
 {
@@ -145,6 +146,22 @@ namespace Spatial.Tests
 
             // ASSERT
             hypotenuse.Should().BeGreaterThan(distance); // Should be smaller than the hypotenuse
+        }
+
+        [Fact]
+        public void InterpolateBetweenToPoints_Should_GiveCorrectDistance()
+        {
+            // ARRANGE
+            double distanceInMeters = 100D;
+            GeoCoordinateExtended from = new GeoCoordinateExtended(52.0166763, -0.6209997, 0);
+            GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 0);
+
+            // ACT
+            GeoCoordinateExtended interpolated = TrackHelper.Interpolate(from, to, distanceInMeters);
+
+            // ASSERT
+            double distance = from.GetDistanceTo(interpolated);
+            distance.Should().BeApproximately(distanceInMeters, 0.1); // Should be the same as requested distance (with a small margin of error due to curvature of the earth)
         }
     }
 }
