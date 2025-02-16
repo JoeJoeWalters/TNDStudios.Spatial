@@ -1,11 +1,10 @@
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using Spatial.Documents;
 using Spatial.Helpers;
 using Spatial.Types;
+using System;
+using System.Collections.Generic;
 using Xunit;
-using System.Transactions;
 
 namespace Spatial.Tests
 {
