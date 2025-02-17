@@ -1,6 +1,8 @@
 ﻿using Spatial.Common;
 using Spatial.Helpers;
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Spatial.Documents
 {
@@ -10,6 +12,8 @@ namespace Spatial.Documents
     /// </summary>
     public class GeoCoordinateExtended : GeoCoordinate
     {
+        private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals }; // To handle Infinity and NaN
+
         public DateTime Time { get; set; } = DateTime.MinValue;
 
         /// <summary>
@@ -63,5 +67,29 @@ namespace Spatial.Documents
 
             return this;
         }
+
+        /// <summary>
+        /// Clone this coordinate to a new instance
+        /// </summary>
+        /// <returns>The new instance of the coordinate</returns>
+        public GeoCoordinateExtended Clone()
+            => JsonSerializer.Deserialize<GeoCoordinateExtended>(JsonSerializer.Serialize<GeoCoordinateExtended>(this, serialiserOptions), serialiserOptions);
+
+        /// <summary>
+        /// Interpolate a point between two points in a track based on a distance between the two points
+        /// </summary>
+        /// <param name="to">The point to travel to</param>
+        /// <param name="distance">How far to travel to the other point</param>
+        /// <returns></returns>
+        public GeoCoordinateExtended Interpolate(GeoCoordinateExtended to, double distance)
+        {
+            double distanceCalc = distance / this.GetDistanceTo(to);
+            double dx = to.Longitude - this.Longitude;
+            double dy = to.Latitude - this.Latitude;
+            double newLat = this.Latitude + distanceCalc * dy;
+            double newLon = this.Longitude + distanceCalc * dx;
+            return new GeoCoordinateExtended(newLat, newLon, 0); // TODO : Altitude
+        }
+
     }
 }

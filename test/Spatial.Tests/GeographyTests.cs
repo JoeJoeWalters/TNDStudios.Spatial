@@ -156,7 +156,7 @@ namespace Spatial.Tests
             GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 0);
 
             // ACT
-            GeoCoordinateExtended interpolated = TrackHelper.Interpolate(from, to, distanceInMeters);
+            GeoCoordinateExtended interpolated = from.Interpolate(to, distanceInMeters);
 
             // ASSERT
             double distance = from.GetDistanceTo(interpolated);
